@@ -2,6 +2,7 @@
   "Title": "Diner Cook",
   "Description": "Runs the border diner. Food keeps everyone fed \u2014 truckers, agents, and the occasional smuggler stopping for tacos.",
   "Category": "Services",
+  "Faction": "US",
   "AccentColor": "0.9843,0.7451,0.3098,1",
   "Salary": 60,
   "MaxPlayers": 2,

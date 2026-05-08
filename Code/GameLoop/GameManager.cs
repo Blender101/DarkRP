@@ -80,8 +80,8 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, Compone
 		if ( Scene.GetAll<Player>().Any( x => x.Network.Owner?.Id == playerData.PlayerId ) )
 			return;
 
-		// Find a spawn location for this player
-		var startLocation = FindSpawnLocation().WithScale( 1 );
+		var faction = JobDefinition.Get( playerData.JobDefinitionPath )?.Faction ?? Faction.Neutral;
+		var startLocation = FindSpawnLocation( faction ).WithScale( 1 );
 
 		// Fire pre-respawn event — listeners can modify spawn location
 		var respawnEvent = new PlayerRespawnEvent { PlayerData = playerData, SpawnLocation = startLocation };
@@ -134,14 +134,36 @@ public sealed partial class GameManager : GameObjectSystem<GameManager>, Compone
 	/// </summary>
 	public Transform FindSpawnLocation()
 	{
-		//
-		// If we have any SpawnPoint components in the scene, then use those
-		//
+		return FindSpawnLocation( Faction.Neutral );
+	}
+
+	/// <summary>
+	/// Find a spawn location, preferring spawn points tagged with the given faction.
+	/// US jobs spawn at points tagged "us", Mexico jobs at "mx". Falls back to any
+	/// spawn point if no faction match is found.
+	/// </summary>
+	public Transform FindSpawnLocation( Faction faction )
+	{
 		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
 
 		if ( spawnPoints.Length == 0 )
-		{
 			return Transform.Zero;
+
+		var factionTag = faction switch
+		{
+			Faction.US => "us",
+			Faction.Mexico => "mx",
+			_ => null
+		};
+
+		if ( factionTag is not null )
+		{
+			var matching = spawnPoints
+				.Where( x => x.Tags.Has( factionTag ) || x.GameObject.Tags.Has( factionTag ) )
+				.ToArray();
+
+			if ( matching.Length > 0 )
+				return Random.Shared.FromArray( matching ).Transform.World;
 		}
 
 		return Random.Shared.FromArray( spawnPoints ).Transform.World;

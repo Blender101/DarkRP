@@ -40,6 +40,15 @@
                 </div>
             }
         </div>
+
+        <div class="visa @VisaStateClass">
+            <label class="dot"></label>
+            <label class="label">@VisaStateLabel</label>
+            @if ( !string.IsNullOrEmpty( VisaTimerLabel ) )
+            {
+                <label class="timer">@VisaTimerLabel</label>
+            }
+        </div>
     </div>
 
     @if ( Weapon.IsValid() && Weapon.UsesAmmo )
@@ -77,6 +86,63 @@
     string MoneyDisplay => MoneyFormatter.FormatCompact( Player.Money );
     string JobTitle => string.IsNullOrWhiteSpace( Player.JobTitle ) ? "US Citizen" : Player.JobTitle;
 
+    VisaComponent Visa => VisaComponent.For( Player );
+
+    int VisaMinutesRemaining
+    {
+        get
+        {
+            if ( !Visa.IsValid() )
+                return 0;
+
+            var remaining = Visa.ExpiryTime - DateTime.UtcNow;
+            return remaining.Ticks <= 0 ? 0 : Math.Max( 0, (int)Math.Ceiling( remaining.TotalMinutes ) );
+        }
+    }
+
+    string VisaStateClass
+    {
+        get
+        {
+            var visa = Visa;
+            if ( !visa.IsValid() )
+                return "missing";
+
+            if ( visa.IsExpired )
+                return "expired";
+
+            return visa.IsFake ? "fake" : "real";
+        }
+    }
+
+    string VisaStateLabel
+    {
+        get
+        {
+            var visa = Visa;
+            if ( !visa.IsValid() )
+                return "No Visa";
+
+            if ( visa.IsExpired )
+                return "Visa Expired";
+
+            return visa.IsFake ? "Fake Visa" : "Visa";
+        }
+    }
+
+    string VisaTimerLabel
+    {
+        get
+        {
+            var visa = Visa;
+            if ( !visa.IsValid() || visa.IsExpired )
+                return null;
+
+            var minutes = VisaMinutesRemaining;
+            return minutes <= 0 ? "<1m" : $"{minutes}m";
+        }
+    }
+
     bool IsSpawnMenuOpen()
     {
         var host = Game.ActiveScene.Get<SpawnMenuHost>();
@@ -93,6 +159,8 @@
         if ( !Player.IsValid() || Player.WantsHideHud ) return 0;
 
         var arrestHash = System.HashCode.Combine( Player.IsArrested, ArrestSecondsRemaining );
-        return System.HashCode.Combine( Player.DisplayName, Player.Health, Player.Armour, Player.Money, Player.JobTitle, arrestHash, Weapon?.ClipContents, Weapon?.ReserveAmmo );
+        var visaHash = System.HashCode.Combine( VisaStateClass, VisaMinutesRemaining );
+        var weaponHash = System.HashCode.Combine( Weapon?.ClipContents, Weapon?.ReserveAmmo );
+        return System.HashCode.Combine( Player.DisplayName, Player.Health, Player.Armour, Player.Money, Player.JobTitle, arrestHash, weaponHash, visaHash );
     }
 }

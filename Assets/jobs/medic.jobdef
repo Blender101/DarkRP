@@ -2,6 +2,7 @@
   "Title": "Paramedic",
   "Description": "Neutral first responder. Patches up agents, cartel, and civilians \u2014 nobody touches the medic.",
   "Category": "Services",
+  "Faction": "Neutral",
   "AccentColor": "0.3882,0.902,0.7451,1",
   "Salary": 65,
   "MaxPlayers": 4,

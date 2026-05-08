@@ -1,0 +1,110 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root class=@RootClass>
+	<div class="welcome-modal" onclick:preventDefault=@true>
+		<div class="header">
+			<label class="eyebrow">Border RP</label>
+			<label class="title">Choose your start</label>
+		</div>
+
+		<div class="choices">
+			<div class="choice us" @onclick=@PickUs>
+				<label class="badge">US Side</label>
+				<label class="name">United States</label>
+				<div class="desc-row">
+					<label class="desc">Lawful gameplay. Be a citizen, run a business, or join Border Patrol.</label>
+				</div>
+			</div>
+
+			<div class="choice mx" @onclick=@PickMexico>
+				<label class="badge">MX Side</label>
+				<label class="name">Mexico</label>
+				<div class="desc-row">
+					<label class="desc">Hustle, smuggle, work the cartel, find your way north.</label>
+				</div>
+			</div>
+		</div>
+
+		<div class="discord-row @(HasClaimedBonus ? "claimed" : "")" @onclick=@ClaimDiscord>
+			<div class="discord-info">
+				<label class="discord-eyebrow">Community Bonus</label>
+				<label class="discord-name">Join our Discord</label>
+				<label class="discord-url">@DiscordHandle</label>
+			</div>
+			<div class="discord-claim">
+				@if ( HasClaimedBonus )
+				{
+					<label class="claim-amount">Claimed</label>
+					<label class="claim-sub">+$@DiscordBonusFormatted</label>
+				}
+				else
+				{
+					<label class="claim-amount">+$@DiscordBonusFormatted</label>
+					<label class="claim-sub">Click to copy &amp; claim</label>
+				}
+			</div>
+		</div>
+
+		<div class="footer-row">
+			<label class="footer">Close to keep your current job</label>
+		</div>
+
+		<div class="close" @onclick=@DismissDefault>×</div>
+	</div>
+</root>
+
+@code
+{
+	const string UsCitizenJob = "jobs/citizen.jobdef";
+	const string MxCitizenJob = "jobs/mx_citizen.jobdef";
+	const string DiscordHandle = "discord.gg/u3jcj9vJyk";
+	const string DiscordUrl = "https://discord.gg/u3jcj9vJyk";
+
+	bool _hasShown;
+
+	Player LocalPlayer => Player.FindLocalPlayer();
+
+	bool ShouldShow => !_hasShown && LocalPlayer.IsValid() && !LocalPlayer.WantsHideHud;
+
+	bool HasClaimedBonus => LocalPlayer.IsValid() && LocalPlayer.HasClaimedDiscordBonus;
+
+	string DiscordBonusFormatted => Player.DiscordBonusAmount.ToString( "N0" );
+
+	string RootClass => ShouldShow ? "welcome-overlay" : "welcome-overlay hidden";
+
+	void PickUs() => Pick( UsCitizenJob );
+	void PickMexico() => Pick( MxCitizenJob );
+
+	void DismissDefault()
+	{
+		_hasShown = true;
+	}
+
+	void Pick( string jobPath )
+	{
+		var player = LocalPlayer;
+		if ( !player.IsValid() )
+			return;
+
+		player.RequestSetStartingFaction( jobPath );
+		_hasShown = true;
+	}
+
+	void ClaimDiscord()
+	{
+		var player = LocalPlayer;
+		if ( !player.IsValid() || player.HasClaimedDiscordBonus )
+			return;
+
+		Clipboard.SetText( DiscordUrl );
+		player.RequestClaimDiscordBonus();
+	}
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine( ShouldShow, HasClaimedBonus );
+	}
+}

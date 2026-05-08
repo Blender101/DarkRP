@@ -2,6 +2,7 @@
   "Title": "US Citizen",
   "Description": "Civilian on the US side of the border. No special authority and no built-in combat gear.",
   "Category": "Civilian",
+  "Faction": "US",
   "AccentColor": "0.8471,0.9098,1,1",
   "Salary": 45,
   "MaxPlayers": 0,

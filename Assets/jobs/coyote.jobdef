@@ -2,6 +2,7 @@
   "Title": "Coyote",
   "Description": "Charges a fee to guide migrants north. Knows every blind spot the cameras don't see.",
   "Category": "Services",
+  "Faction": "Mexico",
   "AccentColor": "0.667,0.467,0.224,1",
   "Salary": 70,
   "MaxPlayers": 3,

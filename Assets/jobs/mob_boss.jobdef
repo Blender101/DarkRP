@@ -2,6 +2,7 @@
   "Title": "Cartel Jefe",
   "Description": "Top of the cartel hierarchy. Runs the south side of the line, calls the shots, and answers to no one.",
   "Category": "Cartel",
+  "Faction": "Mexico",
   "AccentColor": "0.486,0.071,0.071,1",
   "Salary": 110,
   "MaxPlayers": 1,

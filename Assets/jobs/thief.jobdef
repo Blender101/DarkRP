@@ -2,6 +2,7 @@
   "Title": "Smuggler",
   "Description": "Independent operator. Picks locks, moves contraband, and slips past Border Patrol before anyone notices.",
   "Category": "Criminal",
+  "Faction": "Mexico",
   "AccentColor": "0.9059,0.3569,0.3569,1",
   "Salary": 50,
   "MaxPlayers": 6,

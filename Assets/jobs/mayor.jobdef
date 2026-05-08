@@ -2,6 +2,7 @@
   "Title": "Border Sheriff",
   "Description": "Top US authority at the border. Sets the laws posted on the lawboard and directs Border Patrol priorities.",
   "Category": "Government",
+  "Faction": "US",
   "AccentColor": "0.067,0.184,0.412,1",
   "Salary": 110,
   "MaxPlayers": 1,

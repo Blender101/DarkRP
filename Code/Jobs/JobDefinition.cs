@@ -1,3 +1,14 @@
+/// <summary>
+/// Which side of the border a job belongs to. Drives spawn point selection
+/// and faction-aware game logic (dispatch, alerts, etc).
+/// </summary>
+public enum Faction
+{
+	Neutral = 0,
+	US = 1,
+	Mexico = 2,
+}
+
 [AssetType( Name = "Border RP Job", Extension = "jobdef", Category = "Border RP", Flags = AssetTypeFlags.NoEmbedding | AssetTypeFlags.IncludeThumbnails )]
 public sealed class JobDefinition : GameResource, IDefinitionResource
 {
@@ -11,6 +22,9 @@ public sealed class JobDefinition : GameResource, IDefinitionResource
 
 	[Property]
 	public string Category { get; set; } = "Civilian";
+
+	[Property]
+	public Faction Faction { get; set; } = Faction.Neutral;
 
 	[Property]
 	public Color AccentColor { get; set; } = Color.Transparent;

@@ -1,0 +1,277 @@
+@import "/UI/Theme.scss";
+
+.welcome-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba( 0, 0, 0, 0.6 );
+	backdrop-filter: blur( 12px );
+	pointer-events: all;
+	cursor: default;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	z-index: 9999;
+
+	&.hidden {
+		display: none;
+		pointer-events: none;
+	}
+}
+
+.welcome-modal {
+	width: 780px;
+	max-width: 90%;
+	background-color: rgba( 14, 14, 18, 0.92 );
+	border-radius: $hud-radius;
+	padding: 44px 44px 36px 44px;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 32px;
+	color: $hud-text;
+	font-family: $body-font;
+	box-shadow: 0px 24px 64px rgba( 0, 0, 0, 0.5 );
+
+	.close {
+		position: absolute;
+		top: 12px;
+		right: 16px;
+		width: 28px;
+		height: 28px;
+		font-size: 22px;
+		font-weight: 400;
+		color: rgba( 255, 255, 255, 0.4 );
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		border-radius: 4px;
+
+		&:hover {
+			color: $hud-text;
+			background-color: rgba( 255, 255, 255, 0.06 );
+		}
+	}
+
+	.header {
+		flex-direction: column;
+		align-items: center;
+		gap: 4px;
+		flex-shrink: 0;
+
+		.eyebrow {
+			font-family: $body-font;
+			font-size: 11px;
+			font-weight: 700;
+			letter-spacing: 2px;
+			line-height: 14px;
+			text-transform: uppercase;
+			color: $color-accent;
+		}
+
+		.title {
+			font-family: $title-font;
+			font-size: 28px;
+			font-weight: 700;
+			letter-spacing: 0.5px;
+			line-height: 34px;
+			color: $hud-text;
+			text-align: center;
+		}
+	}
+
+	.choices {
+		flex-direction: row;
+		gap: 16px;
+		flex-shrink: 0;
+		align-self: stretch;
+
+		.choice {
+			flex-grow: 1;
+			flex-basis: 0;
+			flex-direction: column;
+			align-items: stretch;
+			padding: 24px 24px 22px 24px;
+			border-radius: $hud-radius;
+			background-color: rgba( 255, 255, 255, 0.04 );
+			cursor: pointer;
+			transition: all 0.15s ease-out;
+			gap: 10px;
+
+			.badge {
+				font-family: $body-font;
+				font-size: 11px;
+				font-weight: 700;
+				letter-spacing: 2px;
+				line-height: 14px;
+				text-transform: uppercase;
+				flex-shrink: 0;
+			}
+
+			.name {
+				font-family: $title-font;
+				font-size: 24px;
+				font-weight: 700;
+				line-height: 28px;
+				color: $hud-text;
+				flex-shrink: 0;
+			}
+
+			.desc-row {
+				flex-shrink: 0;
+				align-self: stretch;
+				min-height: 44px;
+				margin-top: 4px;
+
+				.desc {
+					width: 100%;
+					font-family: $body-font;
+					font-size: 13px;
+					font-weight: 400;
+					line-height: 19px;
+					color: rgba( 255, 255, 255, 0.65 );
+					white-space: normal;
+					word-wrap: break-word;
+				}
+			}
+
+			&.us {
+				.badge {
+					color: lighten( $color-faction-north, 22% );
+				}
+
+				&:hover {
+					background-color: rgba( 45, 95, 163, 0.18 );
+				}
+			}
+
+			&.mx {
+				.badge {
+					color: lighten( $color-faction-south, 25% );
+				}
+
+				&:hover {
+					background-color: rgba( 179, 39, 31, 0.18 );
+				}
+			}
+		}
+	}
+
+	.discord-row {
+		flex-direction: row;
+		align-items: center;
+		align-self: stretch;
+		flex-shrink: 0;
+		gap: 16px;
+		padding: 18px 22px;
+		border-radius: $hud-radius;
+		background-color: rgba( 88, 101, 242, 0.12 );
+		cursor: pointer;
+		transition: all 0.15s ease-out;
+
+		&:hover {
+			background-color: rgba( 88, 101, 242, 0.22 );
+		}
+
+		.discord-info {
+			flex-direction: column;
+			align-items: stretch;
+			flex-grow: 1;
+			flex-basis: 0;
+			gap: 2px;
+
+			.discord-eyebrow {
+				font-family: $body-font;
+				font-size: 10px;
+				font-weight: 700;
+				letter-spacing: 2px;
+				line-height: 13px;
+				text-transform: uppercase;
+				color: rgb( 138, 148, 245 );
+				flex-shrink: 0;
+			}
+
+			.discord-name {
+				font-family: $title-font;
+				font-size: 18px;
+				font-weight: 700;
+				line-height: 22px;
+				color: $hud-text;
+				flex-shrink: 0;
+			}
+
+			.discord-url {
+				font-family: $body-font;
+				font-size: 12px;
+				font-weight: 500;
+				line-height: 16px;
+				color: rgba( 255, 255, 255, 0.5 );
+				flex-shrink: 0;
+				margin-top: 2px;
+			}
+		}
+
+		.discord-claim {
+			flex-direction: column;
+			align-items: flex-end;
+			justify-content: center;
+			flex-shrink: 0;
+			gap: 2px;
+
+			.claim-amount {
+				font-family: $title-font;
+				font-size: 20px;
+				font-weight: 700;
+				line-height: 24px;
+				color: rgb( 138, 148, 245 );
+				flex-shrink: 0;
+			}
+
+			.claim-sub {
+				font-family: $body-font;
+				font-size: 10px;
+				font-weight: 500;
+				letter-spacing: 0.5px;
+				line-height: 13px;
+				color: rgba( 255, 255, 255, 0.4 );
+				text-transform: uppercase;
+				flex-shrink: 0;
+			}
+		}
+
+		&.claimed {
+			background-color: rgba( 70, 168, 100, 0.10 );
+			cursor: default;
+
+			&:hover {
+				background-color: rgba( 70, 168, 100, 0.10 );
+			}
+
+			.discord-eyebrow {
+				color: rgb( 110, 200, 140 );
+			}
+
+			.claim-amount {
+				color: rgb( 110, 200, 140 );
+			}
+		}
+	}
+
+	.footer-row {
+		align-self: center;
+		flex-shrink: 0;
+		margin-top: 8px;
+
+		.footer {
+			font-family: $body-font;
+			font-size: 11px;
+			font-weight: 500;
+			letter-spacing: 0.5px;
+			line-height: 14px;
+			color: rgba( 255, 255, 255, 0.35 );
+			text-align: center;
+			white-space: normal;
+		}
+	}
+}

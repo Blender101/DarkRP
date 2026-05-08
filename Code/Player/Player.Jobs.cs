@@ -134,6 +134,38 @@ public sealed partial class Player
 		_ = ApplyJobDefinitionAsync( definition, true );
 	}
 
+	/// <summary>
+	/// Used by the first-spawn welcome panel to lock in a starting faction.
+	/// Skips the normal job-change cooldown and teleports the player to
+	/// the chosen side's spawn point.
+	/// </summary>
+	[Rpc.Host]
+	public void RequestSetStartingFaction( string resourcePath )
+	{
+		if ( Rpc.Caller != Network.Owner )
+			return;
+
+		var definition = JobDefinition.Get( resourcePath );
+		if ( definition is null )
+			return;
+
+		if ( definition.RequiresVote )
+			return;
+
+		SetJobDefinition( definition );
+		_timeSinceJobChange = 0;
+		_ = ApplyJobDefinitionAsync( definition, false );
+
+		if ( GameManager.Current is { } manager && Controller.IsValid() )
+		{
+			var spawn = manager.FindSpawnLocation( definition.Faction );
+			WorldPosition = spawn.Position;
+			Controller.EyeAngles = spawn.Rotation.Angles();
+		}
+
+		Notices.SendNotice( Network.Owner, "place", Color.Cyan, $"Welcome. You are now {definition.Title}.", 4 );
+	}
+
 	static string FormatJobChangeCooldown( float seconds )
 	{
 		var wholeSeconds = Math.Max( 0, (int)MathF.Ceiling( seconds ) );

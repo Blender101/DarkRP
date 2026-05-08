@@ -2,6 +2,7 @@
   "Title": "Licensed Firearms Dealer",
   "Description": "Legal firearms vendor on the US side. Supplies pistols, rifles, and explosives \u2014 starts armed enough to defend stock.",
   "Category": "Commerce",
+  "Faction": "US",
   "AccentColor": "0.9882,0.6431,0.2863,1",
   "Salary": 75,
   "MaxPlayers": 2,

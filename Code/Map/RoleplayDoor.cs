@@ -458,6 +458,61 @@ public sealed class RoleplayDoor : Component
 		return true;
 	}
 
+	/// <summary>
+	/// Server-side helper used by remote-control systems (e.g. <see cref="GateButton"/>)
+	/// to unlock and open the door, regardless of ownership/government rules.
+	/// Should only be called after the caller has authorised the access.
+	/// </summary>
+	public bool TryOpen( GameObject source )
+	{
+		if ( !Networking.IsHost || !Door.IsValid() )
+			return false;
+
+		Door.IsLocked = false;
+
+		if ( Door.State is Door.DoorState.Closed or Door.DoorState.Closing )
+		{
+			Door.OpenFromServer( source );
+		}
+
+		if ( UnlockSound is not null )
+		{
+			PlayLockSound( UnlockSound );
+		}
+
+		return true;
+	}
+
+	/// <summary>
+	/// Server-side helper used by remote-control systems (e.g. <see cref="GateButton"/>)
+	/// to close the door. Pairs with <see cref="TryOpen"/> for toggle-style buttons.
+	/// </summary>
+	public bool TryClose( GameObject source )
+	{
+		if ( !Networking.IsHost || !Door.IsValid() )
+			return false;
+
+		if ( Door.State is Door.DoorState.Open or Door.DoorState.Opening )
+		{
+			Door.CloseFromServer( source );
+		}
+
+		if ( LockSound is not null )
+		{
+			PlayLockSound( LockSound );
+		}
+
+		return true;
+	}
+
+	public bool IsDoorOpen()
+	{
+		if ( !Door.IsValid() )
+			return false;
+
+		return Door.State is Door.DoorState.Open or Door.DoorState.Opening;
+	}
+
 	public bool TryPlayLockpickAttemptSound( Player actor )
 	{
 		if ( !Networking.IsHost || !CanAttemptLockpick( actor ) )

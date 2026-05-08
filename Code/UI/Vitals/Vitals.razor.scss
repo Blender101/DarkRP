@@ -120,6 +120,78 @@ Vitals
 		{
 			background-tint: #7ec0ff;
 		}
+
+		.visa
+		{
+			flex-direction: row;
+			align-items: center;
+			gap: 8px;
+			padding: 4px 8px;
+			border-radius: 4px;
+			background-color: #ffffff14;
+
+			.dot
+			{
+				width: 8px;
+				min-width: 8px;
+				height: 8px;
+				border-radius: 4px;
+				background-color: #888;
+			}
+
+			.label
+			{
+				font-family: $body-font;
+				font-size: 11px;
+				font-weight: 700;
+				letter-spacing: 0.5px;
+				text-transform: uppercase;
+				color: $hud-text;
+			}
+
+			.timer
+			{
+				margin-left: auto;
+				font-family: $body-font;
+				font-size: 11px;
+				font-weight: 600;
+				color: #fffa;
+			}
+
+			&.real .dot
+			{
+				background-color: #7ee08a;
+				box-shadow: 0 0 6px #7ee08acc;
+			}
+
+			&.real .label
+			{
+				color: #7ee08a;
+			}
+
+			&.fake .dot
+			{
+				background-color: $color-sand;
+				box-shadow: 0 0 6px #c9a972cc;
+			}
+
+			&.fake .label
+			{
+				color: $color-sand;
+			}
+
+			&.expired .dot,
+			&.missing .dot
+			{
+				background-color: $color-faction-south;
+			}
+
+			&.expired .label,
+			&.missing .label
+			{
+				color: $color-faction-south;
+			}
+		}
 	}
 
 	.ammo

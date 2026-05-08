@@ -1,0 +1,17 @@
+{
+  "Title": "MX Citizen",
+  "Description": "Civilian on the Mexican side of the border. Hustle, find work, or take your chances crossing north.",
+  "Category": "Civilian",
+  "Faction": "Mexico",
+  "AccentColor": "0.847,0.910,1.000,1",
+  "Salary": 45,
+  "MaxPlayers": 0,
+  "Command": "/mxcitizen",
+  "Order": 1,
+  "StartingItems": [],
+  "UseOwnerAvatarAppearance": true,
+  "Clothing": [],
+  "IsDefault": false,
+  "__references": [],
+  "__version": 0
+}

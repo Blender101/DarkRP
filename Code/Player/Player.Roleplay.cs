@@ -5,11 +5,19 @@ public sealed partial class Player
 	public const int MinRoleplayNameLength = 3;
 	public const int MaxRoleplayNameLength = 24;
 
+	public const int DiscordBonusAmount = 10000;
+
 	[Property, Sync( SyncFlags.FromHost )]
 	public int Money { get; private set; } = 2500;
 
 	[Property, Sync( SyncFlags.FromHost )]
 	public string JobTitle { get; private set; } = "US Citizen";
+
+	/// <summary>
+	/// One-time claim flag for the Discord starter bonus. Persists across sessions.
+	/// </summary>
+	[Sync( SyncFlags.FromHost )]
+	public bool HasClaimedDiscordBonus { get; private set; }
 
 	public bool CanAfford( int amount )
 	{
@@ -156,6 +164,23 @@ public sealed partial class Player
 	static string NormalizeRoleplayNameSpacing( string value )
 	{
 		return string.Join( " ", (value ?? string.Empty).Trim().Split( ' ', StringSplitOptions.RemoveEmptyEntries ) );
+	}
+
+	[Rpc.Host]
+	public void RequestClaimDiscordBonus()
+	{
+		if ( Rpc.Caller != Network.Owner )
+			return;
+
+		if ( HasClaimedDiscordBonus )
+		{
+			Notices.SendNotice( Network.Owner, "block", Color.Yellow, "You've already claimed the Discord bonus.", 3 );
+			return;
+		}
+
+		HasClaimedDiscordBonus = true;
+		GiveMoney( DiscordBonusAmount );
+		Notices.SendNotice( Network.Owner, "favorite", Color.Cyan, $"Welcome! +${DiscordBonusAmount:N0} for joining the Discord.", 5 );
 	}
 
 	[Rpc.Host]

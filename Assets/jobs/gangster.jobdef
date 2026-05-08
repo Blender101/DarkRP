@@ -2,6 +2,7 @@
   "Title": "Sicario",
   "Description": "Cartel foot soldier. Provides muscle, runs interference, and protects shipments moving across the line.",
   "Category": "Cartel",
+  "Faction": "Mexico",
   "AccentColor": "0.71,0.18,0.18,1",
   "Salary": 55,
   "MaxPlayers": 8,

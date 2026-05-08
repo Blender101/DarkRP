@@ -122,8 +122,16 @@ public static class ChatCommandSystem
 		new( "unban", "/unban <steamid>", "Remove a SteamID ban.", UnbanCommand, ChatCommandAccess.SuperAdmin, accessText: "superadmin" ),
 		new( "setadmin", "/setadmin <player> <none|admin|superadmin>", "Change a player's staff role.", SetAdminCommand, ChatCommandAccess.SuperAdmin, accessText: "superadmin" ),
 		new( "givemoney", "/givemoney <player> <amount>", "Give money to a player.", GiveMoneyCommand, ChatCommandAccess.Admin, accessText: "admin" ),
-		new( "setmoney", "/setmoney <player> <amount>", "Set a player's money.", SetMoneyCommand, ChatCommandAccess.Admin, accessText: "admin" )
+		new( "setmoney", "/setmoney <player> <amount>", "Set a player's money.", SetMoneyCommand, ChatCommandAccess.Admin, accessText: "admin" ),
+		new( "checkvisa", "/checkvisa", "Inspect the visa of the player you're aiming at.", CheckVisaCommand, aliases: ["visa"], accessText: "patrol", canUse: IsBorderPatrolCheck ),
+		new( "frisk", "/frisk", "Frisk the player you're aiming at for contraband.", FriskCommand, aliases: ["search"], accessText: "patrol", canUse: IsBorderPatrolCheck ),
+		new( "confiscate", "/confiscate", "Seize contraband from the player you're aiming at.", ConfiscateCommand, aliases: ["seize"], accessText: "patrol", canUse: IsBorderPatrolCheck )
 	];
+
+	static bool IsBorderPatrolCheck( Player player )
+	{
+		return player.IsValid() && player.IsBorderPatrol;
+	}
 
 	public static IReadOnlyList<string> TokenizeArguments( string argumentsText )
 	{
@@ -624,5 +632,20 @@ public static class ChatCommandSystem
 
 		target.SetMoney( amount );
 		Notices.SendNotice( context.Connection, "$", Color.Green, $"{target.DisplayName} now has ${amount:n0}.", 3 );
+	}
+
+	static void CheckVisaCommand( ChatCommandContext context )
+	{
+		context.Player.CheckVisaOnAimedPlayer();
+	}
+
+	static void FriskCommand( ChatCommandContext context )
+	{
+		context.Player.FriskAimedPlayer();
+	}
+
+	static void ConfiscateCommand( ChatCommandContext context )
+	{
+		context.Player.ConfiscateFromAimedPlayer();
 	}
 }

@@ -325,6 +325,37 @@
           "Children": []
         },
         {
+          "__guid": "ba7eb111-bbbb-4001-9001-000000000001",
+          "__version": 2,
+          "Flags": 0,
+          "Name": "WelcomePanel",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkFlags": 0,
+          "NetworkOrphaned": 0,
+          "NetworkTransmit": true,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "Sandbox.WelcomePanel",
+              "__guid": "ba7eb111-bbbb-4001-9001-000000000002",
+              "__enabled": true,
+              "Flags": 0,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
+        },
+        {
           "__guid": "f7e9d4c1-a2b3-c4d5-e6f7-a8b9c0d1e2f3",
           "__version": 2,
           "Flags": 0,

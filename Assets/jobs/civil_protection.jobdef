@@ -2,6 +2,7 @@
   "Title": "Border Patrol Agent",
   "Description": "Frontline US Border Patrol. Patrols the line, checks IDs, makes arrests, and detains smugglers.",
   "Category": "Government",
+  "Faction": "US",
   "AccentColor": "0.176,0.337,0.643,1",
   "Salary": 70,
   "MaxPlayers": 6,
@@ -9,7 +10,8 @@
   "Order": 10,
   "StartingItems": [
     "weapons/glock/glock.prefab",
-    "weapons/arreststick/arrest_stick.prefab"
+    "weapons/arreststick/arrest_stick.prefab",
+    "weapons/idscanner/id_scanner.prefab"
   ],
   "Clothing": [
     "models/citizen_clothes/hat/police_hat/police_hat.clothing",

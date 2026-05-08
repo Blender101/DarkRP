@@ -2,6 +2,7 @@
   "Title": "Cartel Lookout",
   "Description": "Eyes on the line. Spots Border Patrol movements and warns the cartel before shipments cross.",
   "Category": "Cartel",
+  "Faction": "Mexico",
   "AccentColor": "0.835,0.31,0.31,1",
   "Salary": 45,
   "MaxPlayers": 4,

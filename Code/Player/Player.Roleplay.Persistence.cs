@@ -14,6 +14,7 @@ public sealed partial class Player
 		try
 		{
 			Money = Math.Max( 0, data.Money );
+			HasClaimedDiscordBonus = data.HasClaimedDiscordBonus;
 			if ( TryNormalizeRoleplayName( data.RoleplayName, out var roleplayName, out _ ) )
 			{
 				SetRoleplayName( roleplayName );
@@ -40,7 +41,8 @@ public sealed partial class Player
 		PlayerRoleplayStorage.Save( SteamId, new PlayerRoleplaySaveData
 		{
 			Money = Money,
-			RoleplayName = PlayerData?.DisplayName
+			RoleplayName = PlayerData?.DisplayName,
+			HasClaimedDiscordBonus = HasClaimedDiscordBonus
 		} );
 	}
 }

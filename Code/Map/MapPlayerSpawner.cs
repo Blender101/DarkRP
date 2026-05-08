@@ -27,18 +27,20 @@ public sealed class MapPlayerSpawner : Component
 
 	void RespawnPlayers()
 	{
-		var spawnPoints = Scene.GetAllComponents<SpawnPoint>().ToArray();
+		var manager = GameManager.Current;
+		if ( manager is null )
+			return;
 
 		foreach ( var player in Scene.GetAllComponents<Player>().ToArray() )
 		{
 			if ( player.IsProxy )
 				continue;
 
-			var randomSpawnPoint = Random.Shared.FromArray( spawnPoints );
-			if ( randomSpawnPoint is null ) continue;
+			var faction = player.CurrentJobDefinition?.Faction ?? Faction.Neutral;
+			var spawn = manager.FindSpawnLocation( faction );
 
-			player.WorldPosition = randomSpawnPoint.WorldPosition;
-			player.Controller.EyeAngles = randomSpawnPoint.WorldRotation.Angles();
+			player.WorldPosition = spawn.Position;
+			player.Controller.EyeAngles = spawn.Rotation.Angles();
 		}
 	}
 }
