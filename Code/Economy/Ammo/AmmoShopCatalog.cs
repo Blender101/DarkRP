@@ -69,7 +69,7 @@ public static class AmmoShopCatalog
 
 		if ( !WeaponShopCatalog.IsGunDealer( player ) )
 		{
-			reason = "Gun Dealer only.";
+			reason = "Licensed Firearms Dealer only.";
 			return false;
 		}
 

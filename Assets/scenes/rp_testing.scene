@@ -734,6 +734,70 @@
           "Children": []
         }
       ]
+    },
+    {
+      "__guid": "c1a0e7e4-7d9e-4a5f-9b1a-100000000001",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "SpawnPoint North (US)",
+      "Position": "300,400,32",
+      "Rotation": "0,0,1,0",
+      "Scale": "1,1,1",
+      "Tags": "spawn,north,us",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.SpawnPoint",
+          "__guid": "c1a0e7e4-7d9e-4a5f-9b1a-100000000002",
+          "__enabled": true,
+          "Flags": 0,
+          "Color": "0.176,0.337,0.643,1",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
+        }
+      ],
+      "Children": []
+    },
+    {
+      "__guid": "c1a0e7e4-7d9e-4a5f-9b1a-200000000001",
+      "__version": 2,
+      "Flags": 0,
+      "Name": "SpawnPoint South (MX)",
+      "Position": "-300,-700,32",
+      "Rotation": "0,0,0,1",
+      "Scale": "1,1,1",
+      "Tags": "spawn,south,mx",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "NetworkFlags": 0,
+      "NetworkOrphaned": 0,
+      "NetworkTransmit": true,
+      "OwnerTransfer": 1,
+      "Components": [
+        {
+          "__type": "Sandbox.SpawnPoint",
+          "__guid": "c1a0e7e4-7d9e-4a5f-9b1a-200000000002",
+          "__enabled": true,
+          "Flags": 0,
+          "Color": "0.486,0.071,0.071,1",
+          "OnComponentDestroy": null,
+          "OnComponentDisabled": null,
+          "OnComponentEnabled": null,
+          "OnComponentFixedUpdate": null,
+          "OnComponentStart": null,
+          "OnComponentUpdate": null
+        }
+      ],
+      "Children": []
     }
   ],
   "SceneProperties": {
@@ -761,13 +825,13 @@
           "$blob": "2c96e754-ebbf-48d7-b64f-8ff1238e1710"
         }
       },
+      "Sandbox.MovieMaker.MovieRecorderSystem": {
+        "DisableClientRecording": false
+      },
       "Sandbox.SelectionSetsSystem": {
         "Data": {
           "SelectionSets": []
         }
-      },
-      "Sandbox.MovieMaker.MovieRecorderSystem": {
-        "DisableClientRecording": false
       }
     }
   },

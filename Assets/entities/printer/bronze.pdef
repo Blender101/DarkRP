@@ -1,12 +1,12 @@
 {
   "Prefab": "entities/printer/money_printer.prefab",
-  "Title": "Bronze Printer",
-  "Description": "Entry-level printer that generates $25 every 20 seconds.",
+  "Title": "Weed Press",
+  "Description": "Entry-level contraband press. Slow yield \u2014 $25 every 20 seconds.",
   "Price": 500,
   "MoneyPerTick": 25,
   "Interval": 20,
   "MaxStoredMoney": 8000,
-  "Tint": "0.33725,0.07843,0,1",
+  "Tint": "0.318,0.522,0.224,1",
   "__references": [],
   "__version": 0
 }

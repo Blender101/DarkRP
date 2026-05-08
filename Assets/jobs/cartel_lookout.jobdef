@@ -1,0 +1,22 @@
+{
+  "Title": "Cartel Lookout",
+  "Description": "Eyes on the line. Spots Border Patrol movements and warns the cartel before shipments cross.",
+  "Category": "Cartel",
+  "AccentColor": "0.835,0.31,0.31,1",
+  "Salary": 45,
+  "MaxPlayers": 4,
+  "Command": "/lookout",
+  "Order": 42,
+  "StartingItems": [
+    "weapons/crowbar/crowbar.prefab"
+  ],
+  "Clothing": [
+    "models/citizen_clothes/hat/beanie/beanie_black.clothing",
+    "models/citizen_clothes/jacket/hoodie/hoodie_black.clothing",
+    "models/citizen_clothes/trousers/jeans/jeans_black.clothing",
+    "models/citizen_clothes/shoes/sneakers/sneakers_black.clothing"
+  ],
+  "IsDefault": false,
+  "__references": [],
+  "__version": 0
+}

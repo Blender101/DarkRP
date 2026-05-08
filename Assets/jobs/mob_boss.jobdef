@@ -1,11 +1,12 @@
 {
-  "Title": "Mob Boss",
-  "Description": "High-ranking criminal leader with better equipment and control over gang operations.",
-  "Category": "Criminal",
-  "AccentColor": "0.55612,0.19782,0.5907,1",
-  "Salary": 85,
+  "Title": "Cartel Jefe",
+  "Description": "Top of the cartel hierarchy. Runs the south side of the line, calls the shots, and answers to no one.",
+  "Category": "Cartel",
+  "AccentColor": "0.486,0.071,0.071,1",
+  "Salary": 110,
   "MaxPlayers": 1,
-  "Command": "/mobboss",
+  "RequiresVote": true,
+  "Command": "/jefe",
   "Order": 50,
   "StartingItems": [
     "weapons/colt1911/colt1911.prefab",

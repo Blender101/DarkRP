@@ -1,11 +1,11 @@
 {
-  "Title": "Civil Protection",
-  "Description": "Frontline police role focused on patrols, arrests, and street control.",
+  "Title": "Border Patrol Agent",
+  "Description": "Frontline US Border Patrol. Patrols the line, checks IDs, makes arrests, and detains smugglers.",
   "Category": "Government",
-  "AccentColor": "0.3373,0.7176,0.9765,1",
-  "Salary": 65,
-  "MaxPlayers": 8,
-  "Command": "/cp",
+  "AccentColor": "0.176,0.337,0.643,1",
+  "Salary": 70,
+  "MaxPlayers": 6,
+  "Command": "/agent",
   "Order": 10,
   "StartingItems": [
     "weapons/glock/glock.prefab",

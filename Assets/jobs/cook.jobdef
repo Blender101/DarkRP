@@ -1,10 +1,10 @@
 {
-  "Title": "Cook",
-  "Description": "Food service role focused on utility, survival, and civilian support.",
+  "Title": "Diner Cook",
+  "Description": "Runs the border diner. Food keeps everyone fed \u2014 truckers, agents, and the occasional smuggler stopping for tacos.",
   "Category": "Services",
   "AccentColor": "0.9843,0.7451,0.3098,1",
-  "Salary": 40,
-  "MaxPlayers": 3,
+  "Salary": 60,
+  "MaxPlayers": 2,
   "Command": "/cook",
   "Order": 80,
   "StartingItems": [

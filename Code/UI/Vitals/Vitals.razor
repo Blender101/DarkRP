@@ -75,7 +75,7 @@
     int DisplayArmour => (int)Player.Armour;
     int ArrestSecondsRemaining => Math.Max( 0, (int)MathF.Ceiling( Player.ArrestTimeRemaining ) );
     string MoneyDisplay => MoneyFormatter.FormatCompact( Player.Money );
-    string JobTitle => string.IsNullOrWhiteSpace( Player.JobTitle ) ? "Citizen" : Player.JobTitle;
+    string JobTitle => string.IsNullOrWhiteSpace( Player.JobTitle ) ? "US Citizen" : Player.JobTitle;
 
     bool IsSpawnMenuOpen()
     {

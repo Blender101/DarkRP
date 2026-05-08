@@ -1,12 +1,12 @@
 {
   "Prefab": "entities/printer/money_printer.prefab",
-  "Title": "Gold Printer",
-  "Description": "High-tier printer that generates $25 every 10 seconds.",
+  "Title": "Meth Press",
+  "Description": "High-tier contraband press. Fast yield \u2014 $25 every 10 seconds.",
   "Price": 2600,
   "MoneyPerTick": 25,
   "Interval": 10,
   "MaxStoredMoney": 8000,
-  "Tint": "1,0.78333,0,1",
+  "Tint": "0.741,0.886,0.969,1",
   "__references": [],
   "__version": 0
 }

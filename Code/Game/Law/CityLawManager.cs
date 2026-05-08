@@ -51,28 +51,28 @@ public sealed class CityLawManager : Component
 		var law = SanitizeLaw( lawText );
 		if ( string.IsNullOrWhiteSpace( law ) )
 		{
-			Notices.SendNotice( Rpc.Caller, "block", Color.Red, "Enter a city law first.", 3 );
+			Notices.SendNotice( Rpc.Caller, "block", Color.Red, "Enter a border law first.", 3 );
 			return;
 		}
 
 		var laws = GetCachedLaws().ToList();
 		if ( laws.Count >= MaxLaws )
 		{
-			Notices.SendNotice( Rpc.Caller, "block", Color.Red, $"The city can only have {MaxLaws} laws.", 3 );
+			Notices.SendNotice( Rpc.Caller, "block", Color.Red, $"The border can only have {MaxLaws} laws.", 3 );
 			return;
 		}
 
 		if ( laws.Any( x => string.Equals( x, law, StringComparison.OrdinalIgnoreCase ) ) )
 		{
-			Notices.SendNotice( Rpc.Caller, "block", Color.Red, "That city law already exists.", 3 );
+			Notices.SendNotice( Rpc.Caller, "block", Color.Red, "That border law already exists.", 3 );
 			return;
 		}
 
 		laws.Add( law );
 		SetLaws( laws );
 
-		Notices.SendNotice( Rpc.Caller, "gavel", Color.Green, "City law added.", 3 );
-		Scene.Get<Chat>()?.AddSystemText( $"Mayor {mayor.DisplayName} added a city law: {law}", "📜" );
+		Notices.SendNotice( Rpc.Caller, "gavel", Color.Green, "Border law added.", 3 );
+		Scene.Get<Chat>()?.AddSystemText( $"Sheriff {mayor.DisplayName} added a border law: {law}", "📜" );
 	}
 
 	[Rpc.Host]
@@ -90,8 +90,8 @@ public sealed class CityLawManager : Component
 		laws.RemoveAt( index );
 		SetLaws( laws );
 
-		Notices.SendNotice( Rpc.Caller, "gavel", Color.Green, "City law removed.", 3 );
-		Scene.Get<Chat>()?.AddSystemText( $"Mayor {mayor.DisplayName} removed a city law: {removedLaw}", "📜" );
+		Notices.SendNotice( Rpc.Caller, "gavel", Color.Green, "Border law removed.", 3 );
+		Scene.Get<Chat>()?.AddSystemText( $"Sheriff {mayor.DisplayName} removed a border law: {removedLaw}", "📜" );
 	}
 
 	public void ClearLaws()

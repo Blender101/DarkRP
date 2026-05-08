@@ -1,12 +1,12 @@
 {
-  "Title": "Thief",
-  "Description": "Break into locked homes and slip out before the law arrives.",
+  "Title": "Smuggler",
+  "Description": "Independent operator. Picks locks, moves contraband, and slips past Border Patrol before anyone notices.",
   "Category": "Criminal",
   "AccentColor": "0.9059,0.3569,0.3569,1",
-  "Salary": 60,
+  "Salary": 50,
   "MaxPlayers": 6,
   "RequiresVote": false,
-  "Command": "/thief",
+  "Command": "/smuggler",
   "Order": 45,
   "StartingItems": [
     "weapons/lockpick/lockpick.prefab"

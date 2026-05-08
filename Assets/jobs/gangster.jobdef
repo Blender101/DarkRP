@@ -1,11 +1,11 @@
 {
-  "Title": "Gangster",
-  "Description": "Low-level criminal role built for street crime and supporting organized crews.",
-  "Category": "Criminal",
-  "AccentColor": "0.84265,0.39459,0.88372,1",
+  "Title": "Sicario",
+  "Description": "Cartel foot soldier. Provides muscle, runs interference, and protects shipments moving across the line.",
+  "Category": "Cartel",
+  "AccentColor": "0.71,0.18,0.18,1",
   "Salary": 55,
   "MaxPlayers": 8,
-  "Command": "/gangster",
+  "Command": "/sicario",
   "Order": 40,
   "StartingItems": [
     "weapons/crowbar/crowbar.prefab"

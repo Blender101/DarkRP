@@ -22,15 +22,15 @@ public static class WeaponShopCatalog
 
 	static readonly WeaponShopItemDefinition[] Items =
 	[
-		new( "weapons/crowbar/crowbar.prefab", "Crowbar", 250, "A cheap melee option that hits hard at point-blank range." ),
-		new( "weapons/glock/glock.prefab", "USP", 600, "A dependable sidearm for cheap, accurate close-range fights." ),
-		new( "weapons/colt1911/colt1911.prefab", "1911", 750, "A heavier pistol with stronger shots and a smaller magazine." ),
-		new( "weapons/grenade/grenade.prefab", "Grenade", 900, "A thrown explosive for flushing players out of tight positions.", true ),
-		new( "weapons/mp5/mp5.prefab", "SMG", 1600, "A fast-firing SMG built for aggressive short-range pressure.", true ),
-		new( "weapons/shotgun/shotgun.prefab", "Shotgun", 2100, "A close-quarters weapon that deals massive damage up close.", true ),
-		new( "weapons/m4a1/m4a1.prefab", "M4A1", 2600, "A balanced assault rifle that stays effective in most fights.", true ),
-		new( "weapons/sniper/sniper.prefab", "Sniper", 3200, "A high-damage rifle made for long-range picks and hold angles.", true ),
-		new( "weapons/rpg/rpg.prefab", "Rocket Launcher", 10000, "A heavy launcher for expensive, high-impact explosive pressure.", true )
+		new( "weapons/crowbar/crowbar.prefab", "Crowbar", 250, "Cheap melee option for close-quarters work along the wall." ),
+		new( "weapons/glock/glock.prefab", "USP", 600, "Dependable sidearm. Standard issue for civilians on either side of the line." ),
+		new( "weapons/colt1911/colt1911.prefab", "1911", 750, "Heavier pistol with stronger shots and a smaller magazine. Favored by old-school border gunmen." ),
+		new( "weapons/grenade/grenade.prefab", "Grenade", 900, "Thrown explosive. Restricted stock \u2014 dealer permit required.", true ),
+		new( "weapons/mp5/mp5.prefab", "SMG", 1600, "Fast-firing SMG built for aggressive short-range pressure. Dealer permit required.", true ),
+		new( "weapons/shotgun/shotgun.prefab", "Shotgun", 2100, "Close-quarters firepower for breaching and ambushes. Dealer permit required.", true ),
+		new( "weapons/m4a1/m4a1.prefab", "M4A1", 2600, "Balanced assault rifle. Standard issue equivalent on both sides of the border. Dealer permit required.", true ),
+		new( "weapons/sniper/sniper.prefab", "Sniper", 3200, "High-damage rifle made for long-range picks across the desert. Dealer permit required.", true ),
+		new( "weapons/rpg/rpg.prefab", "Rocket Launcher", 10000, "Heavy launcher. Cartel artillery \u2014 only the deepest pockets carry one. Dealer permit required.", true )
 	];
 
 	public static IReadOnlyList<WeaponShopItemDefinition> GetAll()
@@ -76,7 +76,7 @@ public static class WeaponShopCatalog
 
 		if ( !IsGunDealer( player ) )
 		{
-			reason = "Gun Dealer only.";
+			reason = "Licensed Firearms Dealer only.";
 			return false;
 		}
 
@@ -92,9 +92,9 @@ public static class WeaponShopCatalog
 		if ( string.Equals( job.ResourcePath, GunDealerJobDefinitionPath, StringComparison.OrdinalIgnoreCase ) )
 			return true;
 
-		if ( string.Equals( job.Command, "/gundealer", StringComparison.OrdinalIgnoreCase ) )
+		if ( string.Equals( job.Command, "/dealer", StringComparison.OrdinalIgnoreCase ) )
 			return true;
 
-		return string.Equals( job.Title, "Gun Dealer", StringComparison.OrdinalIgnoreCase );
+		return string.Equals( job.Title, "Licensed Firearms Dealer", StringComparison.OrdinalIgnoreCase );
 	}
 }

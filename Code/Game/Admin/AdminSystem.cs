@@ -253,7 +253,7 @@ public sealed class AdminSystem : GameObjectSystem<AdminSystem>
 		}
 	}
 
-	[ConCmd( "setadmin", ConVarFlags.Server, Help = "Set a DarkRP admin role by SteamID. Usage: setadmin <steamid> <none|admin|superadmin>" )]
+	[ConCmd( "setadmin", ConVarFlags.Server, Help = "Set a Border RP admin role by SteamID. Usage: setadmin <steamid> <none|admin|superadmin>" )]
 	public static void SetAdminCommand( string steamIdText, string roleText )
 	{
 		if ( !Networking.IsHost || Current is null )
@@ -276,10 +276,10 @@ public sealed class AdminSystem : GameObjectSystem<AdminSystem>
 		var displayName = connection?.DisplayName ?? steamIdValue.ToString();
 
 		Current.SetRole( steamId, role, displayName );
-		Log.Info( $"DarkRP admin role for {displayName} ({steamIdValue}) set to {role}." );
+		Log.Info( $"Border RP admin role for {displayName} ({steamIdValue}) set to {role}." );
 	}
 
-	[ConCmd( "admin_delete", ConVarFlags.Server, Help = "Remove a DarkRP admin by SteamID. Usage: admin_delete <steamid>" )]
+	[ConCmd( "admin_delete", ConVarFlags.Server, Help = "Remove a Border RP admin by SteamID. Usage: admin_delete <steamid>" )]
 	public static void DeleteAdminCommand( string steamIdText )
 	{
 		if ( !Networking.IsHost || Current is null )
@@ -293,6 +293,6 @@ public sealed class AdminSystem : GameObjectSystem<AdminSystem>
 
 		var steamId = (SteamId)steamIdValue;
 		Current.SetRole( steamId, AdminRole.None, steamIdValue.ToString() );
-		Log.Info( $"DarkRP admin role removed for {steamIdValue}." );
+		Log.Info( $"Border RP admin role removed for {steamIdValue}." );
 	}
 }

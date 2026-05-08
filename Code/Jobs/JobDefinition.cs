@@ -1,4 +1,4 @@
-[AssetType( Name = "DarkRP Job", Extension = "jobdef", Category = "DarkRP", Flags = AssetTypeFlags.NoEmbedding | AssetTypeFlags.IncludeThumbnails )]
+[AssetType( Name = "Border RP Job", Extension = "jobdef", Category = "Border RP", Flags = AssetTypeFlags.NoEmbedding | AssetTypeFlags.IncludeThumbnails )]
 public sealed class JobDefinition : GameResource, IDefinitionResource
 {
 	public const string DefaultResourcePath = "jobs/citizen.jobdef";
@@ -76,11 +76,12 @@ public sealed class JobDefinition : GameResource, IDefinitionResource
 
 		return Category?.Trim() switch
 		{
-			"Government" => new Color( 0.4549f, 0.7529f, 0.9882f ),
-			"Services" => new Color( 0.3882f, 0.9020f, 0.7451f ),
-			"Commerce" => new Color( 1.0000f, 0.8196f, 0.4000f ),
-			"Criminal" => new Color( 1.0000f, 0.5294f, 0.5294f ),
-			_ => new Color( 0.8471f, 0.9098f, 1.0000f )
+			"Government" => new Color( 0.176f, 0.337f, 0.643f ),
+			"Services" => new Color( 0.388f, 0.902f, 0.745f ),
+			"Commerce" => new Color( 0.988f, 0.643f, 0.286f ),
+			"Cartel" => new Color( 0.486f, 0.071f, 0.071f ),
+			"Criminal" => new Color( 0.906f, 0.357f, 0.357f ),
+			_ => new Color( 0.847f, 0.910f, 1.000f )
 		};
 	}
 

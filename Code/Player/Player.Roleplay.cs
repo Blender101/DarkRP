@@ -9,7 +9,7 @@ public sealed partial class Player
 	public int Money { get; private set; } = 2500;
 
 	[Property, Sync( SyncFlags.FromHost )]
-	public string JobTitle { get; private set; } = "Citizen";
+	public string JobTitle { get; private set; } = "US Citizen";
 
 	public bool CanAfford( int amount )
 	{
@@ -49,7 +49,7 @@ public sealed partial class Player
 		if ( !Networking.IsHost )
 			return;
 
-		JobTitle = string.IsNullOrWhiteSpace( title ) ? "Citizen" : title.Trim();
+		JobTitle = string.IsNullOrWhiteSpace( title ) ? "US Citizen" : title.Trim();
 		if ( PlayerData.IsValid() )
 		{
 			PlayerData.JobTitle = JobTitle;

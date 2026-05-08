@@ -1,0 +1,19 @@
+{
+  "Title": "Journalist",
+  "Description": "Neutral observer covering the border. Writes the story that nobody on either side wants told.",
+  "Category": "Services",
+  "AccentColor": "0.314,0.694,0.776,1",
+  "Salary": 60,
+  "MaxPlayers": 2,
+  "Command": "/journalist",
+  "Order": 78,
+  "StartingItems": [],
+  "Clothing": [
+    "models/citizen_clothes/shirt/flannel_shirt/variations/blue_shirt/blue_shirt.clothing",
+    "models/citizen_clothes/trousers/loosetrousers/loose_trousers.clothing",
+    "models/citizen_clothes/shoes/sneakers/sneakers.clothing"
+  ],
+  "IsDefault": false,
+  "__references": [],
+  "__version": 0
+}

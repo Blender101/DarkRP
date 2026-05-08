@@ -1,12 +1,12 @@
 {
   "Prefab": "entities/printer/money_printer.prefab",
-  "Title": "Silver Printer",
-  "Description": "Balanced printer that generates $25 every 15 seconds.",
+  "Title": "Coke Press",
+  "Description": "Mid-tier contraband press. Steady yield \u2014 $25 every 15 seconds.",
   "Price": 1200,
   "MoneyPerTick": 25,
   "Interval": 15,
   "MaxStoredMoney": 8000,
-  "Tint": "0.94902,0.94118,0.93725,1",
+  "Tint": "0.949,0.941,0.937,1",
   "__references": [],
   "__version": 0
 }

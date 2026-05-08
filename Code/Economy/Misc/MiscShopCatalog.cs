@@ -25,8 +25,8 @@ public static class MiscShopCatalog
 
 	static readonly MiscShopItemDefinition[] Items =
 	[
-		new( TipJar.PrefabPath, "Tip Jar", 150, "Place a jar so other players can donate money to you.", HoboJobDefinitionPath, "Hobo" ),
-		new( Lawboard.PrefabPath, "Lawboard", 250, "Place a public board that mirrors the mayor's city laws.", MayorJobDefinitionPath, "Mayor" )
+		new( TipJar.PrefabPath, "Tip Jar", 150, "Place a jar so other players can donate money to you.", HoboJobDefinitionPath, "Migrant" ),
+		new( Lawboard.PrefabPath, "Lawboard", 250, "Place a public board that mirrors the Sheriff's border laws.", MayorJobDefinitionPath, "Border Sheriff" )
 	];
 
 	public static IReadOnlyList<MiscShopItemDefinition> GetAll()

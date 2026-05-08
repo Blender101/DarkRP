@@ -1,4 +1,4 @@
-[AssetType( Name = "DarkRP Printer", Extension = "pdef", Category = "DarkRP", Flags = AssetTypeFlags.NoEmbedding | AssetTypeFlags.IncludeThumbnails )]
+[AssetType( Name = "Border RP Printer", Extension = "pdef", Category = "Border RP", Flags = AssetTypeFlags.NoEmbedding | AssetTypeFlags.IncludeThumbnails )]
 public class MoneyPrinterDefinition : GameResource, IDefinitionResource
 {
 	public const int MaxOwnedPerPlayer = 5;

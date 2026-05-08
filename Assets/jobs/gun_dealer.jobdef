@@ -1,11 +1,11 @@
 {
-  "Title": "Gun Dealer",
-  "Description": "Black-market supplier who starts armed enough to protect stock and territory.",
+  "Title": "Licensed Firearms Dealer",
+  "Description": "Legal firearms vendor on the US side. Supplies pistols, rifles, and explosives \u2014 starts armed enough to defend stock.",
   "Category": "Commerce",
   "AccentColor": "0.9882,0.6431,0.2863,1",
-  "Salary": 70,
-  "MaxPlayers": 3,
-  "Command": "/gundealer",
+  "Salary": 75,
+  "MaxPlayers": 2,
+  "Command": "/dealer",
   "Order": 60,
   "StartingItems": [
     "weapons/colt1911/colt1911.prefab",

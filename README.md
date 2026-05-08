@@ -1,10 +1,11 @@
-# DarkRP for S&Box
+# Border RP for S&Box
 
-DarkRP is an open-source project aimed at recreating the DarkRP experience in S&box with a modular and maintainable architecture.
-It is based on a fork of the official Sandbox mode, meaning it behaves very similarly to Garry’s Mod: you can use standard Sandbox entities, with a roleplay layer built on top.
-I don’t plan to maintain this project indefinitely, but my goal is to create a clean, solid, and reusable foundation.
+Border RP is an open-source roleplay project recreating a Mexican border experience in S&box on top of a clean, modular foundation.
+It is a fork of the official Sandbox gamemode (and the DarkRP-style framework that grew from it), so all the standard sandbox tools and entities still work — the gameplay layer on top is themed around the border: US authority on one side, the cartel on the other, civilians caught in the middle.
 
-You can try it in-game here: https://sbox.game/sousoup/darkrp2
+The goal is to provide a solid base that's easy to read, easy to extend, and faithful to the underlying Sandbox systems. I don't plan to maintain this indefinitely, but I want what's here to be a useful starting point for anyone building their own border roleplay or any other DarkRP-flavored gamemode.
+
+You can try the upstream DarkRP fork in-game here: https://sbox.game/sousoup/darkrp2
 
 ## Contributors
 
@@ -20,14 +21,12 @@ Thanks to all current and future contributors for your time, ideas, and contribu
   <h3 align="center">Sandbox</h3>
 
   <p align="center">
-    Our multiplayer sandbox built with the tools provided by <a href="https://sbox.facepunch.com">s&box</a>.
+    Built on the multiplayer sandbox provided by <a href="https://sbox.facepunch.com">s&box</a>.
     <br />
     <a href="https://sbox.game/facepunch/sandbox"><strong>Play now »</strong></a>
   </p>
 </div>
 <br/>
-
-https://github.com/user-attachments/assets/f68c7011-6560-49c3-9d3a-ce2411885d08
 
 ## License
 

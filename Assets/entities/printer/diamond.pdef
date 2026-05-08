@@ -1,12 +1,12 @@
 {
   "Prefab": "entities/printer/money_printer.prefab",
-  "Title": "Diamond Printer",
-  "Description": "Top-tier printer that generates $25 every 5 seconds.",
+  "Title": "Fentanyl Press",
+  "Description": "Top-tier contraband press. Massive yield \u2014 $25 every 5 seconds. High risk, high reward.",
   "Price": 4800,
   "MoneyPerTick": 25,
   "Interval": 5,
   "MaxStoredMoney": 8000,
-  "Tint": "0,0.85098,1,1",
+  "Tint": "0.553,0.231,0.769,1",
   "__references": [],
   "__version": 0
 }
