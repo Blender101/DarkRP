@@ -1,0 +1,424 @@
+{
+  "RootObject": {
+    "__guid": "b3a10003-3003-4003-8003-000000000001",
+    "__version": 2,
+    "Flags": 0,
+    "Name": "visa_office_npc",
+    "Position": "0,0,0",
+    "Rotation": "0,0,0,1",
+    "Scale": "1,1,1",
+    "Tags": "npc,interact",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "NetworkFlags": 0,
+    "NetworkOrphaned": 0,
+    "NetworkTransmit": true,
+    "OwnerTransfer": 1,
+    "Components": [
+      {
+        "__type": "Sandbox.NavMeshAgent",
+        "__guid": "b3a10003-3003-4003-8003-000000000010",
+        "__enabled": true,
+        "Flags": 0,
+        "Acceleration": 250,
+        "AllowDefaultArea": true,
+        "AllowedAreas": [],
+        "AutoTraverseLinks": true,
+        "ForbiddenAreas": [],
+        "Height": 64,
+        "MaxSpeed": 0,
+        "Radius": 16,
+        "Separation": 0.25,
+        "UpdatePosition": false,
+        "UpdateRotation": false
+      },
+      {
+        "__type": "Sandbox.Npcs.Shopkeeper.ShopkeeperNpc",
+        "__guid": "b3a10003-3003-4003-8003-000000000011",
+        "__enabled": true,
+        "Flags": 0,
+        "BarkerLines": [
+          "Papers, please.",
+          "Border Authority - step forward.",
+          "All visas valid for thirty minutes.",
+          "Welcome to the checkpoint."
+        ],
+        "DisplayName": "Border Officer",
+        "Health": 100,
+        "Invincible": true,
+        "Renderer": {
+          "_type": "component",
+          "component_id": "b3a10003-3003-4003-8003-000000000020",
+          "go": "b3a10003-3003-4003-8003-000000000002",
+          "component_type": "SkinnedModelRenderer"
+        },
+        "ShowDebugOverlay": false,
+        "TrackingRange": 400
+      },
+      {
+        "__type": "Sandbox.Npcs.Layers.SensesLayer",
+        "__guid": "b3a10003-3003-4003-8003-000000000012",
+        "__enabled": true,
+        "Flags": 0,
+        "HearingRange": 300,
+        "ScanTags": "player",
+        "SightRange": 500,
+        "TargetTags": "player"
+      },
+      {
+        "__type": "Sandbox.Npcs.Layers.NavigationLayer",
+        "__guid": "b3a10003-3003-4003-8003-000000000013",
+        "__enabled": true,
+        "Flags": 0,
+        "StopDistance": 10
+      },
+      {
+        "__type": "Sandbox.Npcs.Layers.AnimationLayer",
+        "__guid": "b3a10003-3003-4003-8003-000000000014",
+        "__enabled": true,
+        "Flags": 0
+      },
+      {
+        "__type": "Sandbox.Npcs.Layers.SpeechLayer",
+        "__guid": "b3a10003-3003-4003-8003-000000000015",
+        "__enabled": true,
+        "Flags": 0
+      },
+      {
+        "__type": "Sandbox.Rigidbody",
+        "__guid": "b3a10003-3003-4003-8003-000000000016",
+        "__enabled": true,
+        "Flags": 0,
+        "AngularDamping": 2,
+        "EnableImpactDamage": false,
+        "EnhancedCcd": false,
+        "Gravity": true,
+        "GravityScale": 1,
+        "ImpactDamage": 0,
+        "LinearDamping": 0.5,
+        "Locking": {
+          "X": false,
+          "Y": false,
+          "Z": false,
+          "Pitch": true,
+          "Yaw": false,
+          "Roll": true
+        },
+        "MassCenterOverride": "0,0,0",
+        "MassOverride": 0,
+        "MinImpactDamageSpeed": 500,
+        "MotionEnabled": false,
+        "OverrideMassCenter": false,
+        "RigidbodyFlags": 0,
+        "StartAsleep": false
+      },
+      {
+        "__type": "Sandbox.BoxCollider",
+        "__guid": "b3a10003-3003-4003-8003-000000000018",
+        "__enabled": true,
+        "Flags": 0,
+        "Center": "0,0,37.5",
+        "ColliderFlags": 0,
+        "Elasticity": null,
+        "Friction": null,
+        "IsTrigger": false,
+        "RollingResistance": null,
+        "Scale": "25,25,75",
+        "Static": false,
+        "Surface": null,
+        "SurfaceVelocity": "0,0,0"
+      },
+      {
+        "__type": "VisaDealer",
+        "__guid": "b3a10003-3003-4003-8003-000000000017",
+        "__enabled": true,
+        "Flags": 0,
+        "FakeVisaPrice": 50,
+        "IsBlackMarket": false,
+        "RealVisaPrice": 200,
+        "VisaDurationMinutes": 30
+      }
+    ],
+    "Children": [
+      {
+        "__guid": "b3a10003-3003-4003-8003-000000000002",
+        "__version": 2,
+        "Flags": 0,
+        "Name": "citizen",
+        "Position": "0,0,0",
+        "Rotation": "0,0,0,1",
+        "Scale": "1,1,1",
+        "Tags": "",
+        "Enabled": true,
+        "NetworkMode": 2,
+        "NetworkFlags": 0,
+        "NetworkOrphaned": 0,
+        "NetworkTransmit": true,
+        "OwnerTransfer": 1,
+        "Components": [
+          {
+            "__type": "Sandbox.SkinnedModelRenderer",
+            "__guid": "b3a10003-3003-4003-8003-000000000020",
+            "__enabled": true,
+            "Flags": 0,
+            "AnimationGraph": null,
+            "BodyGroups": 65,
+            "BoneMergeTarget": null,
+            "CreateAttachments": false,
+            "CreateBoneObjects": true,
+            "LodOverride": null,
+            "MaterialGroup": "default",
+            "MaterialOverride": null,
+            "Materials": null,
+            "Model": "models/citizen/citizen.vmdl",
+            "Morphs": {},
+            "Parameters": {
+              "bools": {},
+              "ints": {},
+              "floats": {},
+              "vectors": {},
+              "rotations": {}
+            },
+            "PlaybackRate": 1,
+            "RenderOptions": {
+              "GameLayer": true,
+              "OverlayLayer": false,
+              "BloomLayer": false,
+              "AfterUILayer": false
+            },
+            "RenderType": "On",
+            "Sequence": {
+              "Name": null,
+              "Looping": true,
+              "Blending": false
+            },
+            "Tint": "1,1,1,1",
+            "UseAnimGraph": true
+          },
+          {
+            "__type": "Sandbox.ModelHitboxes",
+            "__guid": "b3a10003-3003-4003-8003-000000000021",
+            "__enabled": true,
+            "Flags": 0,
+            "Renderer": {
+              "_type": "component",
+              "component_id": "b3a10003-3003-4003-8003-000000000020",
+              "go": "b3a10003-3003-4003-8003-000000000002",
+              "component_type": "SkinnedModelRenderer"
+            },
+            "Target": {
+              "_type": "gameobject",
+              "go": "b3a10003-3003-4003-8003-000000000001"
+            }
+          }
+        ],
+        "Children": [
+          {
+            "__guid": "b3a10003-3003-4003-8003-000000000040",
+            "__version": 2,
+            "Flags": 0,
+            "Name": "Clothing - army_shirt",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "clothing",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkFlags": 0,
+            "NetworkOrphaned": 0,
+            "NetworkTransmit": true,
+            "OwnerTransfer": 1,
+            "Components": [
+              {
+                "__type": "Sandbox.SkinnedModelRenderer",
+                "__guid": "b3a10003-3003-4003-8003-000000000041",
+                "__enabled": true,
+                "Flags": 0,
+                "AnimationGraph": null,
+                "BodyGroups": 18446744073709551615,
+                "BoneMergeTarget": {
+                  "_type": "component",
+                  "component_id": "b3a10003-3003-4003-8003-000000000020",
+                  "go": "b3a10003-3003-4003-8003-000000000002",
+                  "component_type": "SkinnedModelRenderer"
+                },
+                "CreateAttachments": false,
+                "CreateBoneObjects": false,
+                "Model": "models/citizen_clothes/shirt/army_shirt/model/army_shirt.vmdl",
+                "Morphs": {},
+                "Parameters": { "bools": {}, "ints": {}, "floats": {}, "vectors": {}, "rotations": {} },
+                "PlaybackRate": 1,
+                "RenderOptions": { "GameLayer": true, "OverlayLayer": false, "BloomLayer": false, "AfterUILayer": false },
+                "RenderType": "On",
+                "Sequence": { "Name": null, "Looping": true, "Blending": false },
+                "Tint": "0.18,0.22,0.16,1",
+                "UseAnimGraph": true
+              }
+            ],
+            "Children": []
+          },
+          {
+            "__guid": "b3a10003-3003-4003-8003-000000000050",
+            "__version": 2,
+            "Flags": 0,
+            "Name": "Clothing - cargo_pants",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "clothing",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkFlags": 0,
+            "NetworkOrphaned": 0,
+            "NetworkTransmit": true,
+            "OwnerTransfer": 1,
+            "Components": [
+              {
+                "__type": "Sandbox.SkinnedModelRenderer",
+                "__guid": "b3a10003-3003-4003-8003-000000000051",
+                "__enabled": true,
+                "Flags": 0,
+                "AnimationGraph": null,
+                "BodyGroups": 18446744073709551615,
+                "BoneMergeTarget": {
+                  "_type": "component",
+                  "component_id": "b3a10003-3003-4003-8003-000000000020",
+                  "go": "b3a10003-3003-4003-8003-000000000002",
+                  "component_type": "SkinnedModelRenderer"
+                },
+                "CreateAttachments": false,
+                "CreateBoneObjects": false,
+                "Model": "models/citizen_clothes/trousers/cargopants/models/cargo_pants.vmdl",
+                "Morphs": {},
+                "Parameters": { "bools": {}, "ints": {}, "floats": {}, "vectors": {}, "rotations": {} },
+                "PlaybackRate": 1,
+                "RenderOptions": { "GameLayer": true, "OverlayLayer": false, "BloomLayer": false, "AfterUILayer": false },
+                "RenderType": "On",
+                "Sequence": { "Name": null, "Looping": true, "Blending": false },
+                "Tint": "0.18,0.22,0.16,1",
+                "UseAnimGraph": true
+              }
+            ],
+            "Children": []
+          },
+          {
+            "__guid": "b3a10003-3003-4003-8003-000000000060",
+            "__version": 2,
+            "Flags": 0,
+            "Name": "Clothing - black_boots",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "clothing",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkFlags": 0,
+            "NetworkOrphaned": 0,
+            "NetworkTransmit": true,
+            "OwnerTransfer": 1,
+            "Components": [
+              {
+                "__type": "Sandbox.SkinnedModelRenderer",
+                "__guid": "b3a10003-3003-4003-8003-000000000061",
+                "__enabled": true,
+                "Flags": 0,
+                "AnimationGraph": null,
+                "BodyGroups": 18446744073709551615,
+                "BoneMergeTarget": {
+                  "_type": "component",
+                  "component_id": "b3a10003-3003-4003-8003-000000000020",
+                  "go": "b3a10003-3003-4003-8003-000000000002",
+                  "component_type": "SkinnedModelRenderer"
+                },
+                "CreateAttachments": false,
+                "CreateBoneObjects": false,
+                "Model": "models/citizen_clothes/shoes/boots/models/black_boots.vmdl",
+                "Morphs": {},
+                "Parameters": { "bools": {}, "ints": {}, "floats": {}, "vectors": {}, "rotations": {} },
+                "PlaybackRate": 1,
+                "RenderOptions": { "GameLayer": true, "OverlayLayer": false, "BloomLayer": false, "AfterUILayer": false },
+                "RenderType": "On",
+                "Sequence": { "Name": null, "Looping": true, "Blending": false },
+                "Tint": "1,1,1,1",
+                "UseAnimGraph": true
+              }
+            ],
+            "Children": []
+          },
+          {
+            "__guid": "b3a10003-3003-4003-8003-000000000070",
+            "__version": 2,
+            "Flags": 0,
+            "Name": "Clothing - hair_baldingbrown",
+            "Position": "0,0,0",
+            "Rotation": "0,0,0,1",
+            "Scale": "1,1,1",
+            "Tags": "clothing",
+            "Enabled": true,
+            "NetworkMode": 2,
+            "NetworkFlags": 0,
+            "NetworkOrphaned": 0,
+            "NetworkTransmit": true,
+            "OwnerTransfer": 1,
+            "Components": [
+              {
+                "__type": "Sandbox.SkinnedModelRenderer",
+                "__guid": "b3a10003-3003-4003-8003-000000000071",
+                "__enabled": true,
+                "Flags": 0,
+                "AnimationGraph": null,
+                "BodyGroups": 18446744073709551615,
+                "BoneMergeTarget": {
+                  "_type": "component",
+                  "component_id": "b3a10003-3003-4003-8003-000000000020",
+                  "go": "b3a10003-3003-4003-8003-000000000002",
+                  "component_type": "SkinnedModelRenderer"
+                },
+                "CreateAttachments": false,
+                "CreateBoneObjects": false,
+                "Model": "models/citizen_clothes/hair/hair_balding/models/hair_baldingbrown.vmdl",
+                "Morphs": {},
+                "Parameters": { "bools": {}, "ints": {}, "floats": {}, "vectors": {}, "rotations": {} },
+                "PlaybackRate": 1,
+                "RenderOptions": { "GameLayer": true, "OverlayLayer": false, "BloomLayer": false, "AfterUILayer": false },
+                "RenderType": "On",
+                "Sequence": { "Name": null, "Looping": true, "Blending": false },
+                "Tint": "0.18,0.13,0.08,1",
+                "UseAnimGraph": true
+              }
+            ],
+            "Children": []
+          }
+        ]
+      }
+    ],
+    "__properties": {
+      "NetworkInterpolation": true,
+      "TimeScale": 1,
+      "WantsSystemScene": true,
+      "Metadata": {},
+      "NavMesh": {
+        "Enabled": false,
+        "IncludeStaticBodies": true,
+        "IncludeKeyframedBodies": true,
+        "EditorAutoUpdate": false,
+        "AgentHeight": 64,
+        "AgentRadius": 16,
+        "AgentStepSize": 18,
+        "AgentMaxSlope": 40,
+        "ExcludedBodies": "",
+        "IncludedBodies": "",
+        "DeferGeneration": false,
+        "CustomBounds": false
+      }
+    },
+    "__variables": []
+  },
+  "ResourceVersion": 2,
+  "ShowInMenu": true,
+  "MenuPath": "DarkRP/Shopkeepers",
+  "MenuIcon": null,
+  "DontBreakAsTemplate": false,
+  "__references": [],
+  "__version": 2
+}

@@ -35,7 +35,10 @@ public sealed class DrugShop : Component, Component.IPressable
 		if ( !player.IsValid() )
 			return false;
 
-		return !Contraband.IsCarrying( player ) && player.CanAfford( Price );
+		// Do not gate on money here — the HUD treats CanPress as "can use" and would hide
+		// the prompt for everyone who cannot afford yet. Affordability is enforced in
+		// BuyContraband on the host with a notice.
+		return !Contraband.IsCarrying( player );
 	}
 
 	bool IPressable.Press( IPressable.Event e )

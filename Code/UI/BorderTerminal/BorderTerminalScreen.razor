@@ -1,0 +1,98 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root class="@StatusClass">
+	<div class="scanlines"></div>
+
+	<div class="header">
+		<div class="gov-text">DEPT. OF BORDER SECURITY</div>
+		<div class="diag">SYS_REV: 0.4.2-STABLE</div>
+	</div>
+
+	<div class="main-display">
+		<div class="status-label">GATE STATUS</div>
+		<div class="status-value @StatusModifier">@StatusText</div>
+		<div class="location-tag">STATION: BORDER CROSSING A</div>
+	</div>
+
+	<div class="interaction-area">
+		<div class="terminal-button @StatusModifier">
+			<span class="button-label">@ButtonText</span>
+			<span class="button-hint">[ PRESS E ]</span>
+		</div>
+	</div>
+
+	<div class="log-panel">
+		<div class="log-entry">&gt; AUTHENTICATING OPERATOR...</div>
+		<div class="log-entry">&gt; ENCRYPTED LINK ESTABLISHED.</div>
+		<div class="log-entry">&gt; @LogStatus</div>
+	</div>
+</root>
+
+@code
+{
+	BorderGateTerminal _terminal;
+
+	protected override void OnAwake()
+	{
+		_terminal = GameObject.GetComponentInParent<BorderGateTerminal>();
+	}
+
+	bool IsOnline => _terminal?.IsOnline ?? false;
+	bool IsOpen => _terminal?.IsGateOpen ?? false;
+	bool IsBusy => _terminal?.IsCoolingDown ?? false;
+
+	string StatusClass
+	{
+		get
+		{
+			if ( !IsOnline ) return "offline";
+			if ( IsBusy ) return "busy";
+			return IsOpen ? "active" : "locked";
+		}
+	}
+
+	string StatusModifier
+	{
+		get
+		{
+			if ( !IsOnline ) return "offline";
+			if ( IsBusy ) return "busy";
+			return IsOpen ? "active" : "locked";
+		}
+	}
+
+	string StatusText
+	{
+		get
+		{
+			if ( !IsOnline ) return "[ OFFLINE ]";
+			if ( IsBusy ) return "[ ...... ]";
+			return IsOpen ? "[ PROCEED ]" : "[ SECURE ]";
+		}
+	}
+
+	string ButtonText
+	{
+		get
+		{
+			if ( !IsOnline ) return "TERMINAL OFFLINE";
+			if ( IsBusy ) return "PROCESSING...";
+			return IsOpen ? "INITIATE LOCKDOWN" : "OPEN GATE";
+		}
+	}
+
+	string LogStatus
+	{
+		get
+		{
+			if ( !IsOnline ) return "ERROR: NO GATE LINKED";
+			if ( IsBusy ) return "HYDRAULICS ENGAGED...";
+			return IsOpen ? "WARNING: GATE DEPLOYED" : "GATE HYDRAULICS: IDLE";
+		}
+	}
+
+	protected override int BuildHash() => HashCode.Combine( StatusClass, StatusText, ButtonText, LogStatus );
+}
