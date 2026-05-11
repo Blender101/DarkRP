@@ -1,9 +1,9 @@
 {
   "RootObject": {
-    "__guid": "b1d5ca11-0001-4001-8001-000000000001",
+    "__guid": "b1d5ca13-0001-4001-8001-000000000001",
     "__version": 2,
     "Flags": 0,
-    "Name": "id_scanner",
+    "Name": "frisk_tool",
     "Position": "0,0,0",
     "Rotation": "0,0,0,1",
     "Scale": "1,1,1",
@@ -16,8 +16,8 @@
     "OwnerTransfer": 1,
     "Components": [
       {
-        "__type": "BorderPatrolIdScannerTool",
-        "__guid": "b1d5ca11-0001-4001-8001-000000000002",
+        "__type": "BorderPatrolFriskTool",
+        "__guid": "b1d5ca13-0001-4001-8001-000000000002",
         "__enabled": true,
         "Flags": 0,
         "ActionCooldown": 1.2,
@@ -27,7 +27,7 @@
           "$source": "svgsource",
           "data": {
             "Size": "512,256",
-            "Source": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 32\" fill=\"#ffffff\"><rect x=\"3\" y=\"6\" width=\"58\" height=\"20\" rx=\"3\" ry=\"3\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"1.5\"/><circle cx=\"15\" cy=\"14\" r=\"3.5\" fill=\"#ffffff\"/><rect x=\"9\" y=\"19\" width=\"12\" height=\"2\" rx=\"1\" fill=\"#ffffff\"/><rect x=\"25\" y=\"10\" width=\"30\" height=\"2\" rx=\"1\" fill=\"#ffffff\"/><rect x=\"25\" y=\"15\" width=\"24\" height=\"2\" rx=\"1\" fill=\"#ffffff\" opacity=\"0.7\"/><rect x=\"25\" y=\"20\" width=\"18\" height=\"2\" rx=\"1\" fill=\"#ffffff\" opacity=\"0.5\"/><line x1=\"3\" y1=\"16\" x2=\"61\" y2=\"16\" stroke=\"#5dd6ff\" stroke-width=\"0.8\" opacity=\"0.9\"/></svg>",
+            "Source": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 64 32\" fill=\"#ffffff\"><circle cx=\"22\" cy=\"9\" r=\"4\" fill=\"#ffffff\"/><path d=\"M16 30 V20 a6 6 0 0 1 12 0 V30\" fill=\"#ffffff\"/><path d=\"M14 16 l-6 4 l2 3 l4 -3 z\" fill=\"#ffffff\"/><path d=\"M30 16 l6 4 l-2 3 l-4 -3 z\" fill=\"#ffffff\"/><circle cx=\"48\" cy=\"16\" r=\"8\" fill=\"none\" stroke=\"#ffffff\" stroke-width=\"2\"/><line x1=\"54\" y1=\"22\" x2=\"60\" y2=\"28\" stroke=\"#ffffff\" stroke-width=\"3\" stroke-linecap=\"round\"/><line x1=\"42\" y1=\"16\" x2=\"54\" y2=\"16\" stroke=\"#ffffff\" stroke-width=\"1.5\" opacity=\"0.8\"/></svg>",
             "Colorize": false,
             "TargetColor": "1,1,1,1",
             "Scale": 1,
@@ -38,15 +38,15 @@
           },
           "compiled": null
         },
-        "DisplayName": "ID Scanner",
+        "DisplayName": "Frisk Tool",
         "DroppedGameObject": {
           "_type": "gameobject",
-          "go": "b1d5ca11-0001-4001-8001-000000000010"
+          "go": "b1d5ca13-0001-4001-8001-000000000010"
         },
         "HoldType": "Pistol",
         "ItemPrefab": {
           "_type": "gameobject",
-          "prefab": "weapons/idscanner/id_scanner.prefab"
+          "prefab": "weapons/frisktool/frisk_tool.prefab"
         },
         "MuzzleGameObject": null,
         "OnComponentDestroy": null,
@@ -70,7 +70,7 @@
       },
       {
         "__type": "DroppedWeapon",
-        "__guid": "b1d5ca11-0001-4001-8001-000000000003",
+        "__guid": "b1d5ca13-0001-4001-8001-000000000003",
         "__enabled": true,
         "Flags": 0,
         "OnComponentDestroy": null,
@@ -82,7 +82,7 @@
       },
       {
         "__type": "Sandbox.ModelCollider",
-        "__guid": "b1d5ca11-0001-4001-8001-000000000004",
+        "__guid": "b1d5ca13-0001-4001-8001-000000000004",
         "__enabled": true,
         "Flags": 0,
         "ColliderFlags": 0,
@@ -107,7 +107,7 @@
       },
       {
         "__type": "Sandbox.Rigidbody",
-        "__guid": "b1d5ca11-0001-4001-8001-000000000005",
+        "__guid": "b1d5ca13-0001-4001-8001-000000000005",
         "__enabled": true,
         "Flags": 0,
         "AngularDamping": 0,
@@ -142,7 +142,7 @@
     ],
     "Children": [
       {
-        "__guid": "b1d5ca11-0001-4001-8001-000000000010",
+        "__guid": "b1d5ca13-0001-4001-8001-000000000010",
         "__version": 2,
         "Flags": 0,
         "Name": "standalone_wm",
@@ -159,7 +159,7 @@
         "Components": [
           {
             "__type": "WorldModel",
-            "__guid": "b1d5ca11-0001-4001-8001-000000000011",
+            "__guid": "b1d5ca13-0001-4001-8001-000000000011",
             "__enabled": true,
             "Flags": 0,
             "DeploySound": null,
@@ -175,15 +175,15 @@
             "OnComponentUpdate": null,
             "Renderer": {
               "_type": "component",
-              "component_id": "b1d5ca11-0001-4001-8001-000000000012",
-              "go": "b1d5ca11-0001-4001-8001-000000000010",
+              "component_id": "b1d5ca13-0001-4001-8001-000000000012",
+              "go": "b1d5ca13-0001-4001-8001-000000000010",
               "component_type": "SkinnedModelRenderer"
             },
             "TracerEffect": null
           },
           {
             "__type": "Sandbox.SkinnedModelRenderer",
-            "__guid": "b1d5ca11-0001-4001-8001-000000000012",
+            "__guid": "b1d5ca13-0001-4001-8001-000000000012",
             "__enabled": true,
             "Flags": 0,
             "AnimationGraph": null,
@@ -229,7 +229,7 @@
         ],
         "Children": [
           {
-            "__guid": "b1d5ca11-0001-4001-8001-000000000013",
+            "__guid": "b1d5ca13-0001-4001-8001-000000000013",
             "__version": 2,
             "Flags": 8,
             "Name": "muzzle",
@@ -273,7 +273,7 @@
   },
   "ResourceVersion": 2,
   "ShowInMenu": true,
-  "MenuPath": "Border RP/Weapons/ID Scanner",
+  "MenuPath": "Border RP/Weapons/Frisk Tool",
   "MenuIcon": null,
   "DontBreakAsTemplate": true,
   "__references": [

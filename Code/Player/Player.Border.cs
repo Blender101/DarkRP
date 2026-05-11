@@ -97,16 +97,22 @@ public sealed partial class Player
 		return true;
 	}
 
-	public void FriskAimedPlayer()
+	/// <summary>
+	/// Frisks the player the patrol is aiming at for contraband. Returns:
+	///  <c>true</c>  - clean, nothing to confiscate (CLEAN).
+	///  <c>false</c> - contraband found on target (FOUND).
+	///  <c>null</c>  - nothing to inspect (no target / not patrol).
+	/// </summary>
+	public bool? FriskAimedPlayer()
 	{
 		if ( !Networking.IsHost || !IsBorderPatrol )
-			return;
+			return null;
 
 		var target = TraceForInspectionTarget();
 		if ( !target.IsValid() || target == this )
 		{
 			Notices.SendNotice( Network.Owner, "block", Color.Orange, "Aim at someone to frisk them.", 3 );
-			return;
+			return null;
 		}
 
 		var contraband = target.GameObject.GetComponent<Contraband>();
@@ -114,11 +120,12 @@ public sealed partial class Player
 		{
 			ReportInspection( target, $"Carrying contraband: {contraband.ItemName}.", "warning", Color.Red );
 			Notices.SendNotice( target.Network.Owner, "warning", Color.Orange, $"{DisplayName} frisked you.", 3 );
-			return;
+			return false;
 		}
 
 		ReportInspection( target, "Clean - no contraband.", "check_circle", Color.Green );
 		Notices.SendNotice( target.Network.Owner, "check_circle", Color.Yellow, $"{DisplayName} frisked you.", 3 );
+		return true;
 	}
 
 	public void ConfiscateFromAimedPlayer()

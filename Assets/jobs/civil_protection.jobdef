@@ -11,7 +11,8 @@
   "StartingItems": [
     "weapons/glock/glock.prefab",
     "weapons/arreststick/arrest_stick.prefab",
-    "weapons/idscanner/id_scanner.prefab"
+    "weapons/idscanner/id_scanner.prefab",
+    "weapons/frisktool/frisk_tool.prefab"
   ],
   "Clothing": [
     "models/citizen_clothes/hat/police_hat/police_hat.clothing",
