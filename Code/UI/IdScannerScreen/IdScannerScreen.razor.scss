@@ -1,0 +1,52 @@
+$idle-bg: rgb( 12, 16, 22 );
+$idle-text: rgb( 110, 130, 150 );
+
+$pass-bg: rgb( 18, 80, 38 );
+$pass-text: rgb( 120, 255, 160 );
+
+$deny-bg: rgb( 110, 16, 22 );
+$deny-text: rgb( 255, 130, 130 );
+
+$bezel: rgb( 6, 8, 12 );
+
+.id-scanner-screen,
+root {
+	width: 360px;
+	height: 120px;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: center;
+	background-color: $idle-bg;
+	border: 4px solid $bezel;
+	border-radius: 6px;
+	font-family: "Poppins";
+
+	.message {
+		flex-grow: 1;
+		text-align: center;
+		font-size: 84px;
+		font-weight: 800;
+		letter-spacing: 8px;
+		color: $idle-text;
+		text-shadow: 0px 0px 6px rgba( 0, 0, 0, 0.6 );
+		align-self: center;
+		justify-self: center;
+		line-height: 120px;
+	}
+
+	&.pass {
+		background-color: $pass-bg;
+
+		.message {
+			color: $pass-text;
+		}
+	}
+
+	&.deny {
+		background-color: $deny-bg;
+
+		.message {
+			color: $deny-text;
+		}
+	}
+}

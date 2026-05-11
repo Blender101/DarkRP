@@ -1,0 +1,36 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root class="@StateClass">
+	<label class="message">@Message</label>
+</root>
+
+@code
+{
+	[Property]
+	public BorderPatrolIdScannerTool Tool { get; set; }
+
+	BorderPatrolIdScannerTool.ScannerScreenState State =>
+		Tool.IsValid() ? Tool.ScreenState : BorderPatrolIdScannerTool.ScannerScreenState.Idle;
+
+	string Message => State switch
+	{
+		BorderPatrolIdScannerTool.ScannerScreenState.Pass => "PASS",
+		BorderPatrolIdScannerTool.ScannerScreenState.Deny => "DENY",
+		_ => "READY"
+	};
+
+	string StateClass => State switch
+	{
+		BorderPatrolIdScannerTool.ScannerScreenState.Pass => "pass",
+		BorderPatrolIdScannerTool.ScannerScreenState.Deny => "deny",
+		_ => "idle"
+	};
+
+	protected override int BuildHash()
+	{
+		return HashCode.Combine( State );
+	}
+}

@@ -46,35 +46,42 @@ public sealed partial class Player
 		return trace.GameObject.Root.GetComponent<Player>();
 	}
 
-	public void CheckVisaOnAimedPlayer()
+	/// <summary>
+	/// Inspects the player the patrol is aiming at. Returns:
+	///  <c>true</c>  - papers verified (PASS).
+	///  <c>false</c> - papers missing, expired, burned, or forgery-detected (DENY).
+	///  <c>null</c>  - nothing to inspect (no target / not patrol).
+	/// Always sends a notice to the patrol with the human-readable result.
+	/// </summary>
+	public bool? CheckVisaOnAimedPlayer()
 	{
 		if ( !Networking.IsHost || !IsBorderPatrol )
-			return;
+			return null;
 
 		var target = TraceForInspectionTarget();
 		if ( !target.IsValid() || target == this )
 		{
 			Notices.SendNotice( Network.Owner, "block", Color.Orange, "Aim at someone to check their papers.", 3 );
-			return;
+			return null;
 		}
 
 		var visa = VisaComponent.For( target );
 		if ( !visa.IsValid() )
 		{
 			ReportInspection( target, "No visa on record.", "block", Color.Red );
-			return;
+			return false;
 		}
 
 		if ( visa.IsExpired )
 		{
 			ReportInspection( target, $"Visa EXPIRED ({visa.IssuerName}).", "schedule", Color.Orange );
-			return;
+			return false;
 		}
 
 		if ( visa.IsBurned )
 		{
 			ReportInspection( target, $"Visa flagged as forgery ({visa.IssuerName}).", "warning", Color.Red );
-			return;
+			return false;
 		}
 
 		var passed = visa.CheckValidity();
@@ -82,11 +89,12 @@ public sealed partial class Player
 		{
 			ReportInspection( target, $"Visa REJECTED - forgery detected ({visa.IssuerName}).", "warning", Color.Red );
 			Notices.SendNotice( target.Network.Owner, "warning", Color.Red, $"{DisplayName} flagged your papers as forged.", 5 );
-			return;
+			return false;
 		}
 
 		var minutes = Math.Max( 0, (int)Math.Ceiling( (visa.ExpiryTime - DateTime.UtcNow).TotalMinutes ) );
 		ReportInspection( target, $"Visa valid - {visa.IssuerName} - {minutes}m remaining.", "verified", Color.Green );
+		return true;
 	}
 
 	public void FriskAimedPlayer()
