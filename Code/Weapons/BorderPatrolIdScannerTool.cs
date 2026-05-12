@@ -16,4 +16,30 @@ public sealed class BorderPatrolIdScannerTool : BorderPatrolScreenWeapon
 	{
 		return player.CheckVisaOnAimedPlayer();
 	}
+
+	protected override string BuildResultDetail( Player player, bool? result )
+	{
+		if ( !Networking.IsHost || result is null )
+			return "";
+
+		var target = player.TraceForInspectionTarget();
+		if ( !target.IsValid() || target == player )
+			return "";
+
+		var visa = VisaComponent.For( target );
+		if ( !visa.IsValid() || !visa.HasIssuedVisa )
+			return result == false ? "No visa" : "";
+
+		if ( result == false )
+		{
+			if ( visa.IsExpired )
+				return "Expired visa";
+			if ( visa.IsBurned )
+				return "Forgery flag";
+			return "Forgery check failed";
+		}
+
+		var minutes = Math.Max( 0, (int)Math.Ceiling( (visa.ExpiryTime - DateTime.UtcNow).TotalMinutes ) );
+		return $"{visa.IssuerName} · {minutes}m";
+	}
 }

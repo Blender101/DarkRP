@@ -56,6 +56,47 @@ public sealed class BorderGateTerminal : Component, Component.IPressable
 	[Sync( SyncFlags.FromHost )]
 	public TimeSince TimeSinceLastAction { get; set; }
 
+	/// <summary>
+	/// Encoded ring buffer of the last <see cref="MaxLogEntries"/> events.
+	/// Entries are joined with '\n', each entry is "secondsAgo|actor|event".
+	/// Decoded on the screen via <see cref="GetLogEntries"/>.
+	/// </summary>
+	[Sync( SyncFlags.FromHost )]
+	public string LogEntries { get; set; } = "";
+
+	public const int MaxLogEntries = 10;
+
+	/// <summary>
+	/// Finds the closest enabled terminal in the scene (used for patrol audit lines).
+	/// </summary>
+	public static BorderGateTerminal FindNearest( Vector3 origin, float maxDistance )
+	{
+		if ( Game.ActiveScene is null )
+			return null;
+
+		var maxSq = maxDistance * maxDistance;
+		BorderGateTerminal best = null;
+		var bestDistSq = float.MaxValue;
+
+		foreach ( var terminal in Game.ActiveScene.GetAllComponents<BorderGateTerminal>() )
+		{
+			if ( !terminal.IsValid() || !terminal.Enabled )
+				continue;
+
+			var dSq = Vector3.DistanceBetweenSquared( origin, terminal.WorldPosition );
+			if ( dSq > maxSq )
+				continue;
+
+			if ( dSq < bestDistSq )
+			{
+				bestDistSq = dSq;
+				best = terminal;
+			}
+		}
+
+		return best;
+	}
+
 	RoleplayDoor _linkedDoor;
 
 	protected override void OnStart()
@@ -144,14 +185,71 @@ public sealed class BorderGateTerminal : Component, Component.IPressable
 		{
 			door.TryClose( pressorObject );
 			LastActionLabel = "GATE CLOSED";
+			AppendLog( player.DisplayName, "CLOSED GATE" );
 		}
 		else
 		{
 			door.TryOpen( pressorObject );
 			LastActionLabel = "GATE OPENED";
+			AppendLog( player.DisplayName, "OPENED GATE" );
 		}
 
 		PlayActivation();
+	}
+
+	/// <summary>
+	/// Host-side: append a new line to the audit log ring buffer.
+	/// </summary>
+	public void AppendLog( string actor, string action )
+	{
+		if ( !Networking.IsHost )
+			return;
+
+		actor = string.IsNullOrWhiteSpace( actor ) ? "Unknown" : SanitizeField( actor );
+		action = SanitizeField( action );
+
+		var lines = string.IsNullOrEmpty( LogEntries )
+			? new List<string>()
+			: LogEntries.Split( '\n', StringSplitOptions.RemoveEmptyEntries ).ToList();
+
+		var now = (int)Math.Round( (float)Time.Now );
+		lines.Insert( 0, $"{now}|{actor}|{action}" );
+
+		while ( lines.Count > MaxLogEntries )
+			lines.RemoveAt( lines.Count - 1 );
+
+		LogEntries = string.Join( "\n", lines );
+	}
+
+	static string SanitizeField( string value )
+	{
+		if ( string.IsNullOrEmpty( value ) )
+			return "";
+		return value.Replace( '|', '/' ).Replace( '\n', ' ' );
+	}
+
+	public readonly record struct LogEntry( float SecondsAgo, string Actor, string Event );
+
+	/// <summary>
+	/// Decodes the synced <see cref="LogEntries"/> string into typed entries
+	/// in newest-first order. Safe to call on the client every frame.
+	/// </summary>
+	public IEnumerable<LogEntry> GetLogEntries()
+	{
+		if ( string.IsNullOrEmpty( LogEntries ) )
+			yield break;
+
+		foreach ( var line in LogEntries.Split( '\n', StringSplitOptions.RemoveEmptyEntries ) )
+		{
+			var parts = line.Split( '|', 3 );
+			if ( parts.Length < 3 )
+				continue;
+
+			if ( !float.TryParse( parts[0], out var stamp ) )
+				continue;
+
+			yield return new LogEntry( Time.Now - stamp, parts[1], parts[2] );
+		}
 	}
 
 	[Rpc.Broadcast]

@@ -49,6 +49,8 @@ public abstract class BorderPatrolScreenWeapon : ScreenWeapon
 	ScreenState _localResult;
 	ScreenState _pendingResult;
 	bool _hasPendingResult;
+	string _pendingDetail = "";
+	string _localResultDetail = "";
 
 	bool CanAct => _localCooldown <= 0f && _localWorkingUntil <= 0f;
 
@@ -85,6 +87,11 @@ public abstract class BorderPatrolScreenWeapon : ScreenWeapon
 	/// </summary>
 	protected abstract bool? PerformServerAction( Player player );
 
+	/// <summary>
+	/// Host-only: extra line on the tool screen after a pass/fail (e.g. contraband summary).
+	/// </summary>
+	protected virtual string BuildResultDetail( Player player, bool? result ) => "";
+
 	public override void OnControl( Player player )
 	{
 		base.OnControl( player );
@@ -102,8 +109,10 @@ public abstract class BorderPatrolScreenWeapon : ScreenWeapon
 			_localWorkingUntil = WorkingDuration;
 			_localResult = ScreenState.Idle;
 			_localResultUntil = 0f;
+			_localResultDetail = "";
 			_hasPendingResult = false;
 			_pendingResult = ScreenState.Idle;
+			_pendingDetail = "";
 
 			RequestAction();
 		}
@@ -130,6 +139,7 @@ public abstract class BorderPatrolScreenWeapon : ScreenWeapon
 		_serverCooldown = ActionCooldown;
 
 		var result = PerformServerAction( player );
+		var detail = BuildResultDetail( player, result );
 		var state = result switch
 		{
 			true => ScreenState.Pass,
@@ -139,16 +149,17 @@ public abstract class BorderPatrolScreenWeapon : ScreenWeapon
 
 		using ( Rpc.FilterInclude( Rpc.Caller ) )
 		{
-			NotifyResult( (int)state );
+			NotifyResult( (int)state, detail ?? "" );
 		}
 
 		PlayActionEffects();
 	}
 
 	[Rpc.Broadcast( NetFlags.HostOnly )]
-	void NotifyResult( int state )
+	void NotifyResult( int state, string detail )
 	{
 		_pendingResult = (ScreenState)state;
+		_pendingDetail = detail ?? "";
 		_hasPendingResult = true;
 	}
 
@@ -161,6 +172,7 @@ public abstract class BorderPatrolScreenWeapon : ScreenWeapon
 			if ( _pendingResult != ScreenState.Idle )
 			{
 				_localResult = _pendingResult;
+				_localResultDetail = _pendingDetail;
 				_localResultUntil = ResultHoldDuration;
 			}
 			_hasPendingResult = false;
@@ -169,6 +181,7 @@ public abstract class BorderPatrolScreenWeapon : ScreenWeapon
 		if ( _localResultUntil <= 0f )
 		{
 			_localResult = ScreenState.Idle;
+			_localResultDetail = "";
 		}
 	}
 
@@ -235,7 +248,14 @@ public abstract class BorderPatrolScreenWeapon : ScreenWeapon
 			textColor = Color.Lerp( textColor, Color.White, pulse * 0.35f );
 		}
 
-		var text = new TextRendering.Scope( label, textColor, 64 );
+		var hasDetail = (state == ScreenState.Pass || state == ScreenState.Fail)
+			&& !string.IsNullOrEmpty( _localResultDetail );
+
+		var mainRect = hasDetail
+			? new Rect( rect.Left, rect.Top + rect.Height * 0.08f, rect.Width, rect.Height * 0.52f )
+			: rect;
+
+		var text = new TextRendering.Scope( label, textColor, hasDetail ? 52f : 64f );
 		text.LineHeight = 0.75f;
 		text.FontName = "Poppins";
 		text.TextColor = textColor;
@@ -244,13 +264,28 @@ public abstract class BorderPatrolScreenWeapon : ScreenWeapon
 		var measured = text.Measure();
 		float textW = measured.x;
 
-		if ( textW <= rect.Width )
+		if ( textW <= mainRect.Width )
 		{
-			paint.DrawText( text, rect, TextFlag.Center );
+			paint.DrawText( text, mainRect, TextFlag.Center );
 		}
 		else
 		{
-			DrawMarquee( rect, paint, text, textW, measured.y );
+			DrawMarquee( mainRect, paint, text, textW, measured.y );
+		}
+
+		if ( hasDetail )
+		{
+			var detailRect = new Rect( rect.Left, rect.Top + rect.Height * 0.56f, rect.Width, rect.Height * 0.38f );
+			var detailScope = new TextRendering.Scope( _localResultDetail, Color.White.WithAlpha( 0.92f ), 22f );
+			detailScope.LineHeight = 0.85f;
+			detailScope.FontName = "Poppins";
+			detailScope.FontWeight = 600;
+			detailScope.TextColor = Color.White.WithAlpha( 0.92f );
+			var dw = detailScope.Measure().x;
+			if ( dw <= detailRect.Width )
+				paint.DrawText( detailScope, detailRect, TextFlag.Center );
+			else
+				DrawMarquee( detailRect, paint, detailScope, dw, detailScope.Measure().y );
 		}
 	}
 

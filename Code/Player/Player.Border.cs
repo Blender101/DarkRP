@@ -27,7 +27,7 @@ public sealed partial class Player
 	/// Aim-trace from the patrol's eye to find the player they're inspecting.
 	/// Server-side only so the result can't be spoofed.
 	/// </summary>
-	Player TraceForInspectionTarget()
+	public Player TraceForInspectionTarget()
 	{
 		if ( !Controller.IsValid() )
 			return null;
@@ -55,32 +55,47 @@ public sealed partial class Player
 	/// </summary>
 	public bool? CheckVisaOnAimedPlayer()
 	{
-		if ( !Networking.IsHost || !IsBorderPatrol )
-			return null;
-
 		var target = TraceForInspectionTarget();
 		if ( !target.IsValid() || target == this )
 		{
-			Notices.SendNotice( Network.Owner, "block", Color.Orange, "Aim at someone to check their papers.", 3 );
+			if ( Networking.IsHost && IsBorderPatrol )
+				Notices.SendNotice( Network.Owner, "block", Color.Orange, "Aim at someone to check their papers.", 3 );
 			return null;
 		}
+
+		return CheckVisaOnPlayer( target );
+	}
+
+	/// <summary>
+	/// Host-only visa check for an explicit target (e.g. Stop &amp; ID menu).
+	/// </summary>
+	public bool? CheckVisaOnPlayer( Player target )
+	{
+		if ( !Networking.IsHost || !IsBorderPatrol )
+			return null;
+
+		if ( !target.IsValid() || target == this )
+			return null;
 
 		var visa = VisaComponent.For( target );
 		if ( !visa.IsValid() || !visa.HasIssuedVisa )
 		{
 			ReportInspection( target, "No visa on record.", "block", Color.Red );
+			AppendPatrolLog( $"{DisplayName}", $"SCAN {target.DisplayName}: NO VISA" );
 			return false;
 		}
 
 		if ( visa.IsExpired )
 		{
 			ReportInspection( target, $"Visa EXPIRED ({visa.IssuerName}).", "schedule", Color.Orange );
+			AppendPatrolLog( $"{DisplayName}", $"SCAN {target.DisplayName}: EXPIRED" );
 			return false;
 		}
 
 		if ( visa.IsBurned )
 		{
 			ReportInspection( target, $"Visa flagged as forgery ({visa.IssuerName}).", "warning", Color.Red );
+			AppendPatrolLog( $"{DisplayName}", $"SCAN {target.DisplayName}: FORGERY FLAG" );
 			return false;
 		}
 
@@ -89,11 +104,13 @@ public sealed partial class Player
 		{
 			ReportInspection( target, $"Visa REJECTED - forgery detected ({visa.IssuerName}).", "warning", Color.Red );
 			Notices.SendNotice( target.Network.Owner, "warning", Color.Red, $"{DisplayName} flagged your papers as forged.", 5 );
+			AppendPatrolLog( $"{DisplayName}", $"SCAN {target.DisplayName}: FORGERY" );
 			return false;
 		}
 
 		var minutes = Math.Max( 0, (int)Math.Ceiling( (visa.ExpiryTime - DateTime.UtcNow).TotalMinutes ) );
 		ReportInspection( target, $"Visa valid - {visa.IssuerName} - {minutes}m remaining.", "verified", Color.Green );
+		AppendPatrolLog( $"{DisplayName}", $"SCAN {target.DisplayName}: PASS {minutes}m" );
 		return true;
 	}
 
@@ -105,26 +122,41 @@ public sealed partial class Player
 	/// </summary>
 	public bool? FriskAimedPlayer()
 	{
-		if ( !Networking.IsHost || !IsBorderPatrol )
-			return null;
-
 		var target = TraceForInspectionTarget();
 		if ( !target.IsValid() || target == this )
 		{
-			Notices.SendNotice( Network.Owner, "block", Color.Orange, "Aim at someone to frisk them.", 3 );
+			if ( Networking.IsHost && IsBorderPatrol )
+				Notices.SendNotice( Network.Owner, "block", Color.Orange, "Aim at someone to frisk them.", 3 );
 			return null;
 		}
+
+		return FriskPlayer( target );
+	}
+
+	/// <summary>
+	/// Host-only frisk for an explicit target (e.g. Stop &amp; ID menu).
+	/// </summary>
+	public bool? FriskPlayer( Player target )
+	{
+		if ( !Networking.IsHost || !IsBorderPatrol )
+			return null;
+
+		if ( !target.IsValid() || target == this )
+			return null;
 
 		var contraband = target.GameObject.GetComponent<Contraband>();
 		if ( contraband.IsValid() )
 		{
-			ReportInspection( target, $"Carrying contraband: {contraband.ItemName}.", "warning", Color.Red );
-			Notices.SendNotice( target.Network.Owner, "warning", Color.Orange, $"{DisplayName} frisked you.", 3 );
+			var line = $"CARRYING: {contraband.ItemName} (${contraband.PurchasePrice:n0} shipment)";
+			ReportInspection( target, line, "warning", Color.Red );
+			Notices.SendNotice( target.Network.Owner, "warning", Color.Orange, $"{DisplayName} is frisking you — contraband may be visible.", 4 );
+			AppendPatrolLog( $"{DisplayName}", $"FRISK {target.DisplayName}: FOUND {contraband.ItemName} ${contraband.PurchasePrice}" );
 			return false;
 		}
 
 		ReportInspection( target, "Clean - no contraband.", "check_circle", Color.Green );
 		Notices.SendNotice( target.Network.Owner, "check_circle", Color.Yellow, $"{DisplayName} frisked you.", 3 );
+		AppendPatrolLog( $"{DisplayName}", $"FRISK {target.DisplayName}: CLEAN" );
 		return true;
 	}
 
@@ -154,6 +186,7 @@ public sealed partial class Player
 		Notices.SendNotice( target.Network.Owner, "warning", Color.Red, $"{DisplayName} confiscated your {itemName}.", 5 );
 
 		Scene.Get<Chat>()?.AddSystemText( $"{DisplayName} confiscated contraband from {target.DisplayName}.", "🛂" );
+		AppendPatrolLog( DisplayName, $"CONFISCATE {target.DisplayName}: {itemName}" );
 	}
 
 	void ReportInspection( Player target, string finding, string icon, Color color )
@@ -162,5 +195,13 @@ public sealed partial class Player
 			return;
 
 		Notices.SendNotice( connection, icon, color, $"{target.DisplayName}: {finding}", 5 );
+	}
+
+	void AppendPatrolLog( string actor, string action )
+	{
+		if ( !Networking.IsHost )
+			return;
+
+		BorderGateTerminal.FindNearest( WorldPosition, 8000f )?.AppendLog( actor, action );
 	}
 }

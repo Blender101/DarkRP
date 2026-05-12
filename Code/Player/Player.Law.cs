@@ -3,6 +3,7 @@ using Sandbox.UI;
 public sealed partial class Player
 {
 	public const string CivilProtectionJobDefinitionPath = "jobs/civil_protection.jobdef";
+	public const float ConfiscationBountyFraction = 0.25f;
 	public const string PoliceChiefJobDefinitionPath = "jobs/police_chief.jobdef";
 	public const string MayorJobDefinitionPath = "jobs/mayor.jobdef";
 	const float ArrestDistance = 180.0f;
@@ -182,6 +183,26 @@ public sealed partial class Player
 	{
 		if ( !Networking.IsHost || !PlayerData.IsValid() || IsArrested )
 			return;
+
+		ClearBorderStopForPlayer( this );
+		if ( officer.IsValid() )
+			ClearBorderStopForPlayer( officer );
+
+		var contraband = GameObject.GetComponent<Contraband>();
+		if ( contraband.IsValid() && officer.IsValid() && officer.CanArrestPlayers )
+		{
+			var price = Math.Max( 0, contraband.PurchasePrice );
+			var bounty = Math.Max( 1, (int)Math.Round( price * ConfiscationBountyFraction ) );
+			var itemName = contraband.ItemName;
+			contraband.Destroy();
+			officer.GiveMoney( bounty );
+			if ( officer.Network.Owner is { } oc )
+				Notices.SendNotice( oc, "payments", Color.Green, $"Contraband seizure bounty: ${bounty:n0} ({itemName}).", 4 );
+			Scene.Get<Chat>()?.AddSystemText(
+				$"[LAW] {officer.DisplayName} seized {itemName} from {DisplayName} on arrest (bounty ${bounty:n0}).", "🛂" );
+			BorderGateTerminal.FindNearest( officer.WorldPosition, 8000f )
+				?.AppendLog( officer.DisplayName, $"ARREST SEIZED {itemName} ${price} BOUNTY ${bounty}" );
+		}
 
 		PlayerData.IsArrested = true;
 		PlayerData.ArrestTimeRemaining = ArrestDuration;

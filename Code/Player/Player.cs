@@ -314,6 +314,8 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 			Controller.UseInputControls = true;
 		}
 
+		ApplyBorderStopCitizenSlowdown();
+
 		if ( HandleArrestControl() )
 			return;
 
@@ -341,6 +343,7 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 			ConsoleSystem.Run( "undo" );
 		}
 
+		HandleBorderStopInput();
 		HandleDoorUseInput();
 		HandleDoorPurchaseInput();
 		HandleDoorSellInput();

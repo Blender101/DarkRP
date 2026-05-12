@@ -16,4 +16,20 @@ public sealed class BorderPatrolFriskTool : BorderPatrolScreenWeapon
 	{
 		return player.FriskAimedPlayer();
 	}
+
+	protected override string BuildResultDetail( Player player, bool? result )
+	{
+		if ( !Networking.IsHost || result != false )
+			return "";
+
+		var target = player.TraceForInspectionTarget();
+		if ( !target.IsValid() || target == player )
+			return "";
+
+		var c = target.GameObject.GetComponent<Contraband>();
+		if ( !c.IsValid() )
+			return "";
+
+		return $"CARRYING: {c.ItemName} (${c.PurchasePrice:n0} shipment)";
+	}
 }

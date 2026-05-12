@@ -1,0 +1,131 @@
+#nullable disable
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root class="@StatusClass">
+	<div class="topbar">
+		<div class="dot-blue"></div>
+		<label class="url">cbp.dhs.gov</label>
+		<label class="lock">SECURE</label>
+	</div>
+
+	<div class="masthead">
+		<div class="seal"></div>
+		<div class="masthead-text">
+			<label class="agency">U.S. CUSTOMS &amp; BORDER PROTECTION</label>
+			<label class="bureau">VOLUNTARY DECLARATION TERMINAL</label>
+		</div>
+		<div class="flag">
+			<div class="flag-stripe red"></div>
+			<div class="flag-stripe white"></div>
+			<div class="flag-stripe red"></div>
+			<div class="flag-stripe white"></div>
+			<div class="flag-stripe red"></div>
+		</div>
+	</div>
+
+	<div class="page">
+		<label class="page-title">Form CBP-6059 · Declaration of Goods</label>
+
+		<div class="info-card">
+			<div class="info-row">
+				<label class="info-key">Carrier</label>
+				<label class="info-value">@CarrierText</label>
+			</div>
+			<div class="info-row">
+				<label class="info-key">Article</label>
+				<label class="info-value">@ArticleText</label>
+			</div>
+			<div class="info-row">
+				<label class="info-key">Declared Value</label>
+				<label class="info-value">@ValueText</label>
+			</div>
+			<div class="info-row">
+				<label class="info-key">Status</label>
+				<label class="info-value status-@StatusClass">@StatusLabel</label>
+			</div>
+		</div>
+
+		<div class="price-card">
+			<label class="price-label">AMNESTY STIPEND</label>
+			<label class="price-value">@StipendText</label>
+		</div>
+
+		<div class="cta @StatusClass">
+			<label class="cta-label">@ButtonText</label>
+			<label class="cta-hint">PRESS  E</label>
+		</div>
+	</div>
+
+	<div class="footer">
+		<label class="footer-text">@LastActionLine</label>
+		<label class="footer-text">@LastActorLine</label>
+	</div>
+</root>
+
+@code
+{
+	DeclarationKiosk _kiosk;
+	Contraband _contraband;
+
+	protected override void OnAwake()
+	{
+		_kiosk = GameObject.GetComponentInParent<DeclarationKiosk>();
+	}
+
+	Player LocalPlayer => Player.FindLocalPlayer();
+
+	string CarrierText => LocalPlayer.IsValid() ? LocalPlayer.DisplayName : "—";
+
+	string ArticleText => _contraband.IsValid() ? _contraband.ItemName : "—";
+
+	string ValueText => _contraband.IsValid() ? $"${_contraband.PurchasePrice:n0}" : "—";
+
+	string StipendText => (_kiosk?.AmnestyPayout ?? 0) > 0 ? $"${_kiosk.AmnestyPayout:n0}" : "—";
+
+	string StatusClass
+	{
+		get
+		{
+			if ( _contraband is null )
+				return "none";
+			if ( _contraband.DeclaredAtBorder )
+				return "active";
+			return "pending";
+		}
+	}
+
+	string StatusLabel => StatusClass switch
+	{
+		"active" => "DECLARED",
+		"pending" => "UNDECLARED",
+		_ => "NO ARTICLE",
+	};
+
+	string ButtonText => StatusClass switch
+	{
+		"active" => "FILED",
+		"pending" => "FILE DECLARATION",
+		_ => "APPROACH WITH GOODS",
+	};
+
+	string LastActionLine => string.IsNullOrEmpty( _kiosk?.LastActionLabel ) ? "STANDBY" : _kiosk.LastActionLabel;
+
+	string LastActorLine => string.IsNullOrEmpty( _kiosk?.LastActor ) ? "—" : _kiosk.LastActor;
+
+	protected override int BuildHash()
+	{
+		var p = LocalPlayer;
+		_contraband = p.IsValid() ? p.GameObject.GetComponent<Contraband>() : null;
+		return System.HashCode.Combine(
+			_kiosk?.LastActionLabel,
+			_kiosk?.LastActor,
+			_kiosk?.AmnestyPayout,
+			_contraband?.DeclaredAtBorder,
+			_contraband?.ItemName,
+			_contraband?.PurchasePrice,
+			p?.DisplayName );
+	}
+}

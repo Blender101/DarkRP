@@ -387,6 +387,68 @@
           "Children": []
         },
         {
+          "__guid": "c0d1e2f3-a4b5-4001-9002-000000000003",
+          "__version": 2,
+          "Flags": 0,
+          "Name": "ContrabandWaypoint",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkFlags": 0,
+          "NetworkOrphaned": 0,
+          "NetworkTransmit": true,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "Sandbox.ContrabandWaypoint",
+              "__guid": "c0d1e2f3-a4b5-4001-9002-000000000004",
+              "__enabled": true,
+              "Flags": 0,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
+        },
+        {
+          "__guid": "c4abf3d1-7b29-4e85-9c1d-2f8a3b7e6d50",
+          "__version": 2,
+          "Flags": 0,
+          "Name": "StopHud",
+          "Position": "0,0,0",
+          "Rotation": "0,0,0,1",
+          "Scale": "1,1,1",
+          "Tags": "",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "NetworkFlags": 0,
+          "NetworkOrphaned": 0,
+          "NetworkTransmit": true,
+          "OwnerTransfer": 1,
+          "Components": [
+            {
+              "__type": "Sandbox.StopHud",
+              "__guid": "a83de1c0-9f47-4b62-8e3a-5d2f1c9b7a40",
+              "__enabled": true,
+              "Flags": 0,
+              "OnComponentDestroy": null,
+              "OnComponentDisabled": null,
+              "OnComponentEnabled": null,
+              "OnComponentFixedUpdate": null,
+              "OnComponentStart": null,
+              "OnComponentUpdate": null
+            }
+          ],
+          "Children": []
+        },
+        {
           "__guid": "897024e9-d858-446b-8f90-c35c8f5421b9",
           "__version": 2,
           "Flags": 0,

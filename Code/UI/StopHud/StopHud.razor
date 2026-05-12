@@ -1,0 +1,111 @@
+#nullable disable
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+@if ( !ShouldShow )
+{
+	return;
+}
+
+<root>
+	@if ( IsOfficer )
+	{
+		<div class="panel officer">
+			<label class="title">Stop &amp; ID</label>
+			<label class="sub">Detainee actions</label>
+			<div class="row">
+				<button class="btn" @onclick=@OnFrisk>Frisk</button>
+				<button class="btn" @onclick=@OnScan>Scan ID</button>
+			</div>
+			<div class="row">
+				<button class="btn warn" @onclick=@OnDetain>Detain</button>
+				<button class="btn ghost" @onclick=@OnRelease>Release</button>
+			</div>
+			@if ( HasBribeOffer )
+			{
+				<div class="bribe">
+					<label>Bribe: $@BribeAmountText</label>
+					<label class="who">from @BribeFromName</label>
+					<div class="row">
+						<button class="btn ok" @onclick=@OnAcceptBribe>Accept</button>
+						<button class="btn ghost" @onclick=@OnDeclineBribe>Decline</button>
+					</div>
+				</div>
+			}
+		</div>
+	}
+	else if ( IsCitizen )
+	{
+		<div class="panel citizen">
+			<label class="title">Inspection</label>
+			<label class="sub">Stopped by @OfficerName</label>
+			<label class="hint">Look at the officer and press USE to offer a bribe.</label>
+		</div>
+	}
+</root>
+
+@code
+{
+	Player Me => Player.FindLocalPlayer();
+
+	bool ShouldShow
+	{
+		get
+		{
+			var me = Me;
+			if ( !me.IsValid() || me.WantsHideHud )
+				return false;
+			return me.BorderStopCitizenId != Guid.Empty || me.BorderStopOfficerId != Guid.Empty;
+		}
+	}
+
+	bool IsOfficer => Me.IsValid() && Me.BorderStopCitizenId != Guid.Empty;
+	bool IsCitizen => Me.IsValid() && Me.BorderStopOfficerId != Guid.Empty;
+
+	bool HasBribeOffer => Me.IsValid() && Me.BorderBribeOfferCitizenId != Guid.Empty;
+
+	string BribeAmountText => Me.IsValid() ? Me.BorderBribeOfferAmount.ToString( "N0" ) : "0";
+
+	string BribeFromName
+	{
+		get
+		{
+			if ( !Me.IsValid() ) return "?";
+			var from = Player.For( Me.BorderBribeOfferCitizenId );
+			return from.IsValid() ? from.DisplayName : "?";
+		}
+	}
+
+	string OfficerName
+	{
+		get
+		{
+			if ( !Me.IsValid() ) return "officer";
+			var officer = Player.For( Me.BorderStopOfficerId );
+			return officer.IsValid() ? officer.DisplayName : "officer";
+		}
+	}
+
+	void OnFrisk() => Me?.RequestStopFriskCitizen();
+	void OnScan() => Me?.RequestStopScanCitizen();
+	void OnDetain() => Me?.RequestStopDetainCitizen();
+	void OnRelease() => Me?.RequestBorderStopRelease();
+	void OnAcceptBribe() => Me?.RequestAcceptBorderBribe();
+	void OnDeclineBribe() => Me?.RequestDeclineBorderBribe();
+
+	protected override int BuildHash()
+	{
+		var me = Me;
+		if ( !me.IsValid() )
+			return 0;
+
+		return HashCode.Combine(
+			me.BorderStopCitizenId,
+			me.BorderStopOfficerId,
+			me.BorderBribeOfferCitizenId,
+			me.BorderBribeOfferAmount,
+			me.WantsHideHud );
+	}
+}
