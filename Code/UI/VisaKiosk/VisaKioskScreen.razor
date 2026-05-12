@@ -1,0 +1,181 @@
+#nullable disable
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+@namespace Sandbox
+
+<root class="@StatusClass">
+	<div class="topbar">
+		<div class="dot-blue"></div>
+		<label class="url">travel.state.gov</label>
+		<label class="lock">SECURE</label>
+	</div>
+
+	<div class="masthead">
+		<div class="seal"></div>
+		<div class="masthead-text">
+			<label class="agency">U.S. DEPARTMENT OF STATE</label>
+			<label class="bureau">BUREAU OF CONSULAR AFFAIRS</label>
+		</div>
+		<div class="flag">
+			<div class="flag-stripe red"></div>
+			<div class="flag-stripe white"></div>
+			<div class="flag-stripe red"></div>
+			<div class="flag-stripe white"></div>
+			<div class="flag-stripe red"></div>
+		</div>
+	</div>
+
+	<div class="page">
+		<label class="page-title">Apply For A Visa</label>
+
+		<div class="info-card">
+			<div class="info-row">
+				<label class="info-key">Class</label>
+				<label class="info-value">B-1 / B-2 Visitor</label>
+			</div>
+			<div class="info-row">
+				<label class="info-key">Validity</label>
+				<label class="info-value">@ValidityText</label>
+			</div>
+			<div class="info-row">
+				<label class="info-key">Status</label>
+				<label class="info-value status-@StatusClass">@StatusText</label>
+			</div>
+			<div class="info-row">
+				<label class="info-key">@StatusDetailLabel</label>
+				<label class="info-value">@StatusDetailValue</label>
+			</div>
+		</div>
+
+		<div class="price-card">
+			<label class="price-label">MRV Fee</label>
+			<label class="price-value">$@PriceText</label>
+		</div>
+
+		<div class="cta @StatusClass">
+			<label class="cta-label">@ButtonText</label>
+			<label class="cta-hint">PRESS  E</label>
+		</div>
+	</div>
+
+	<div class="footer">
+		<label class="footer-text">@LastActionLine</label>
+		<label class="footer-text">@LastActorLine</label>
+	</div>
+</root>
+
+@code
+{
+	VisaPurchaseTerminal _terminal;
+
+	protected override void OnAwake()
+	{
+		_terminal = GameObject.GetComponentInParent<VisaPurchaseTerminal>();
+	}
+
+	bool IsBusy => _terminal?.IsCoolingDown ?? false;
+
+	VisaComponent LocalVisa => VisaComponent.For( Player.FindLocalPlayer() );
+
+	bool HasVisa => LocalVisa.IsValid();
+	bool IsExpired => HasVisa && LocalVisa.IsExpired;
+	bool IsActive => HasVisa && !LocalVisa.IsExpired && !LocalVisa.IsBurned;
+	bool IsBurned => HasVisa && LocalVisa.IsBurned;
+
+	string StatusClass
+	{
+		get
+		{
+			if ( _terminal is null ) return "offline";
+			if ( IsBusy ) return "busy";
+			if ( IsBurned ) return "revoked";
+			if ( IsExpired ) return "expired";
+			if ( IsActive ) return "active";
+			return "none";
+		}
+	}
+
+	string StatusText
+	{
+		get
+		{
+			if ( _terminal is null ) return "Offline";
+			if ( IsBurned ) return "Revoked";
+			if ( IsExpired ) return "Expired";
+			if ( IsActive ) return "Approved";
+			return "Not Issued";
+		}
+	}
+
+	string StatusDetailLabel
+	{
+		get
+		{
+			if ( IsActive ) return "Remaining";
+			return "Action";
+		}
+	}
+
+	string StatusDetailValue
+	{
+		get
+		{
+			if ( _terminal is null ) return "Offline";
+			if ( IsBurned ) return "Replace required";
+			if ( IsExpired ) return "Renewal required";
+			if ( IsActive )
+			{
+				var remaining = LocalVisa.ExpiryTime - DateTime.UtcNow;
+				var minutes = (int)Math.Max( 0, remaining.TotalMinutes );
+				return $"{minutes} min";
+			}
+			return "Apply below";
+		}
+	}
+
+	string ValidityText
+	{
+		get
+		{
+			var minutes = (int)(_terminal?.VisaDurationMinutes ?? 0f);
+			return $"{minutes} min";
+		}
+	}
+
+	string PriceText => (_terminal?.VisaPrice ?? 0).ToString( "n0" );
+
+	string ButtonText
+	{
+		get
+		{
+			if ( _terminal is null ) return "OFFLINE";
+			if ( IsBusy ) return "PROCESSING";
+			if ( IsActive ) return "EXTEND VISA";
+			if ( IsExpired || IsBurned ) return "RENEW VISA";
+			return "APPLY FOR VISA";
+		}
+	}
+
+	string LastActionLine
+	{
+		get
+		{
+			if ( _terminal is null ) return "Status: Offline";
+			return $"Last: {_terminal.LastActionLabel}";
+		}
+	}
+
+	string LastActorLine
+	{
+		get
+		{
+			if ( _terminal is null ) return "By: ---";
+			return $"By: {(_terminal.LastActor ?? "---")}";
+		}
+	}
+
+	protected override int BuildHash() => HashCode.Combine(
+		StatusClass, StatusText, StatusDetailLabel, StatusDetailValue, ButtonText, PriceText, LastActionLine, LastActorLine
+	);
+}

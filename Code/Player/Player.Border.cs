@@ -66,7 +66,7 @@ public sealed partial class Player
 		}
 
 		var visa = VisaComponent.For( target );
-		if ( !visa.IsValid() )
+		if ( !visa.IsValid() || !visa.HasIssuedVisa )
 		{
 			ReportInspection( target, "No visa on record.", "block", Color.Red );
 			return false;

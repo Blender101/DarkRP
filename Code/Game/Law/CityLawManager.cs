@@ -72,7 +72,7 @@ public sealed class CityLawManager : Component
 		SetLaws( laws );
 
 		Notices.SendNotice( Rpc.Caller, "gavel", Color.Green, "Border law added.", 3 );
-		Scene.Get<Chat>()?.AddSystemText( $"Sheriff {mayor.DisplayName} added a border law: {law}", "📜" );
+		Scene.Get<Chat>()?.AddSystemText( $"Mayor {mayor.DisplayName} added a border law: {law}", "📜" );
 	}
 
 	[Rpc.Host]
@@ -91,7 +91,7 @@ public sealed class CityLawManager : Component
 		SetLaws( laws );
 
 		Notices.SendNotice( Rpc.Caller, "gavel", Color.Green, "Border law removed.", 3 );
-		Scene.Get<Chat>()?.AddSystemText( $"Sheriff {mayor.DisplayName} removed a border law: {removedLaw}", "📜" );
+		Scene.Get<Chat>()?.AddSystemText( $"Mayor {mayor.DisplayName} removed a border law: {removedLaw}", "📜" );
 	}
 
 	public void ClearLaws()

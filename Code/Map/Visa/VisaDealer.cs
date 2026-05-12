@@ -5,15 +5,12 @@ using Sandbox.UI;
 /// inspector to switch between a legitimate visa office and a forged-papers
 /// stall. All cash transactions and visa issuance run on the host.
 ///
-/// Issuing a visa spawns a <see cref="VisaCard"/> prefab into the player's
-/// inventory. The card is destroyed automatically when the player dies
-/// (their GameObject is destroyed in <see cref="Player.Kill"/>), so death
-/// forces them to come back for new papers.
+/// Issuing a visa updates the buyer's <see cref="VisaComponent"/> directly
+/// on their player object. When the player dies their pawn is destroyed,
+/// so they must buy new papers after respawn.
 /// </summary>
 public sealed class VisaDealer : Component, Component.IPressable
 {
-	public const string VisaCardPrefab = "weapons/visacard/visa_card.prefab";
-
 	[Property]
 	public bool IsBlackMarket { get; set; }
 
@@ -63,10 +60,6 @@ public sealed class VisaDealer : Component, Component.IPressable
 		if ( !player.IsValid() || Rpc.Caller != player.Network.Owner )
 			return;
 
-		var inventory = player.GetComponent<PlayerInventory>();
-		if ( !inventory.IsValid() )
-			return;
-
 		var price = Price;
 		if ( !player.CanAfford( price ) )
 		{
@@ -74,45 +67,20 @@ public sealed class VisaDealer : Component, Component.IPressable
 			return;
 		}
 
-		var existing = VisaComponent.CardFor( player );
-
-		if ( !existing.IsValid() )
-		{
-			var slot = inventory.FindEmptySlot();
-			if ( slot < 0 )
-			{
-				Notices.SendNotice( player.Network.Owner, "block", Color.Red, "No room for a visa - drop something first.", 4 );
-				return;
-			}
-
-			if ( !player.TryTakeMoney( price ) )
-				return;
-
-			if ( !inventory.Pickup( VisaCardPrefab, slot, false ) )
-			{
-				player.GiveMoney( price );
-				Notices.SendNotice( player.Network.Owner, "block", Color.Red, "Couldn't issue your visa - try again.", 4 );
-				return;
-			}
-
-			existing = inventory.GetSlot( slot ) as VisaCard;
-		}
-		else
-		{
-			if ( !player.TryTakeMoney( price ) )
-				return;
-		}
-
-		if ( !existing.IsValid() || !existing.Visa.IsValid() )
+		var visa = VisaComponent.For( player );
+		if ( !visa.IsValid() )
 		{
 			Notices.SendNotice( player.Network.Owner, "block", Color.Red, "Visa issuance failed.", 4 );
 			return;
 		}
 
-		existing.Visa.IsFake = IsBlackMarket;
-		existing.Visa.IssuerName = IssuerLabel;
-		existing.Visa.ExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes( Math.Max( 1f, VisaDurationMinutes ) );
-		existing.Visa.IsBurned = false;
+		if ( !player.TryTakeMoney( price ) )
+			return;
+
+		visa.IsFake = IsBlackMarket;
+		visa.IssuerName = IssuerLabel;
+		visa.ExpiryTime = DateTime.UtcNow + TimeSpan.FromMinutes( Math.Max( 1f, VisaDurationMinutes ) );
+		visa.IsBurned = false;
 
 		var color = IsBlackMarket ? Color.Yellow : Color.Green;
 		Notices.SendNotice( player.Network.Owner, IconName, color,

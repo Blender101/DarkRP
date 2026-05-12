@@ -29,6 +29,18 @@ public sealed class RoleplayDoor : Component
 	[Property, Group( "Sound" )]
 	public SoundEvent UnlockSound { get; set; } = new( "entities/door/sounds/door_unlock.sound" );
 
+	/// <summary>
+	/// Local-space offset of the hinge from the door's origin. Leave zero to keep the door
+	/// rotating around its own center. For a fence/gate that should swing from one edge, set
+	/// this to roughly half the gate's width along the edge (e.g. <c>(0, -65, 0)</c>).
+	///
+	/// On <see cref="OnAwake"/> we create an internal "hinge" child at this offset and assign it
+	/// to <see cref="Sandbox.Door.Pivot"/>. If you've already wired up <see cref="Sandbox.Door.Pivot"/>
+	/// manually, that takes precedence.
+	/// </summary>
+	[Property, Group( "Hinge" )]
+	public Vector3 HingeOffset { get; set; }
+
 	[Sync( SyncFlags.FromHost )]
 	private Guid _ownerId { get; set; }
 
@@ -44,6 +56,27 @@ public sealed class RoleplayDoor : Component
 	public bool IsOwned => Owner is not null;
 	public bool CanBePurchased => !IsGovernment && !IsPublic && !IsOwned;
 	bool CanLockpickGovernmentDoor => AllowGovernmentLockpick || DefaultAllowGovernmentLockpick;
+
+	protected override void OnAwake()
+	{
+		ApplyHingeOffset();
+	}
+
+	/// <summary>
+	/// If <see cref="HingeOffset"/> is non-zero and <see cref="Sandbox.Door.Pivot"/> has not been
+	/// manually set, create a "hinge" child at the requested local offset and wire it up.
+	/// Must happen before <see cref="Sandbox.Door"/>'s <c>OnStart</c> caches its pivot position.
+	/// </summary>
+	private void ApplyHingeOffset()
+	{
+		if ( !Door.IsValid() ) return;
+		if ( Door.Pivot.IsValid() ) return;
+		if ( HingeOffset.LengthSquared < 0.0001f ) return;
+
+		var hinge = new GameObject( GameObject, false, "hinge" );
+		hinge.LocalPosition = HingeOffset;
+		Door.Pivot = hinge;
+	}
 
 	protected override void OnStart()
 	{

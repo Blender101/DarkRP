@@ -1,13 +1,13 @@
 {
-  "Title": "Border Sheriff",
-  "Description": "Top US authority at the border. Sets the laws posted on the lawboard and directs Border Patrol priorities.",
+  "Title": "Mayor",
+  "Description": "Elected leader of the US border town. Sets public laws on the lawboard, declares wanted status, and steers how Border Patrol focuses enforcement.",
   "Category": "Government",
   "Faction": "US",
   "AccentColor": "0.067,0.184,0.412,1",
   "Salary": 110,
   "MaxPlayers": 1,
   "RequiresVote": true,
-  "Command": "/sheriff",
+  "Command": "/mayor",
   "Order": 30,
   "StartingItems": [],
   "Clothing": [

@@ -92,7 +92,7 @@
     {
         get
         {
-            if ( !Visa.IsValid() )
+            if ( !Visa.IsValid() || !Visa.HasIssuedVisa )
                 return 0;
 
             var remaining = Visa.ExpiryTime - DateTime.UtcNow;
@@ -105,7 +105,7 @@
         get
         {
             var visa = Visa;
-            if ( !visa.IsValid() )
+            if ( !visa.IsValid() || !visa.HasIssuedVisa )
                 return "missing";
 
             if ( visa.IsExpired )
@@ -120,7 +120,7 @@
         get
         {
             var visa = Visa;
-            if ( !visa.IsValid() )
+            if ( !visa.IsValid() || !visa.HasIssuedVisa )
                 return "No Visa";
 
             if ( visa.IsExpired )
@@ -135,7 +135,7 @@
         get
         {
             var visa = Visa;
-            if ( !visa.IsValid() || visa.IsExpired )
+            if ( !visa.IsValid() || !visa.HasIssuedVisa || visa.IsExpired )
                 return null;
 
             var minutes = VisaMinutesRemaining;

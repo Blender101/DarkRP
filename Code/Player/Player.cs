@@ -73,6 +73,8 @@ public sealed partial class Player : Component, Component.IDamageable, PlayerCon
 		if ( IsLocalPlayer )
 			LocalPlayer = this;
 
+		GameObject.GetOrAddComponent<VisaComponent>();
+
 		var targets = Scene.GetAllComponents<DeathCameraTarget>()
 			.Where( x => x.Connection == Network.Owner );
 

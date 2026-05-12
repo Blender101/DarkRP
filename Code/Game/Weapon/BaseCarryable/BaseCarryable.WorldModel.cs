@@ -48,7 +48,7 @@ public partial class BaseCarryable : Component
 	{
 		if ( renderer is null ) return;
 
-		if ( Networking.IsHost )
+		if ( Networking.IsHost && this.IsValid() )
 		{
 			IsItem = false;
 		}
@@ -77,7 +77,7 @@ public partial class BaseCarryable : Component
 		WorldModel?.Destroy();
 		WorldModel = default;
 
-		if ( Networking.IsHost )
+		if ( Networking.IsHost && this.IsValid() )
 			IsItem = true;
 	}
 }

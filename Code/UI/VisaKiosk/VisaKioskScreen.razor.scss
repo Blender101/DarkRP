@@ -1,0 +1,256 @@
+$navy: #112e51;
+$navy-dark: #0b1f3a;
+$navy-light: #205493;
+$red: #b41e2d;
+$red-dark: #8b1421;
+$gold: #ffbe2e;
+$paper: #ffffff;
+$paper-tint: #f3f6fb;
+$paper-line: #d6dce7;
+$ink: #1b1b1b;
+$ink-muted: #5b6172;
+$green: #2e7d32;
+$amber: #b47210;
+
+VisaKioskScreen {
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	background-color: $paper;
+	color: $ink;
+	font-family: "Arial";
+	overflow: hidden;
+
+	.topbar {
+		flex-direction: row;
+		align-items: center;
+		background-color: #1f2733;
+		padding: 1px 4px;
+		height: 10px;
+		flex-shrink: 0;
+	}
+
+	.dot-blue {
+		width: 4px;
+		height: 4px;
+		border-radius: 4px;
+		background-color: #4b8df8;
+		margin-right: 4px;
+	}
+
+	.url {
+		flex-grow: 1;
+		font-size: 6px;
+		color: #c8d1de;
+		letter-spacing: 0.5px;
+	}
+
+	.lock {
+		font-size: 5px;
+		font-weight: 700;
+		color: #64d39c;
+		letter-spacing: 1px;
+		padding: 0 3px;
+		border: 1px solid rgba( 100, 211, 156, 0.45 );
+	}
+
+	.masthead {
+		flex-direction: row;
+		align-items: center;
+		background-color: $navy;
+		color: $paper;
+		padding: 3px 6px;
+		flex-shrink: 0;
+		border-bottom: 1px solid $gold;
+	}
+
+	.seal {
+		width: 16px;
+		height: 16px;
+		border-radius: 16px;
+		background-color: $gold;
+		border: 1px solid $paper;
+		margin-right: 6px;
+	}
+
+	.masthead-text {
+		flex-direction: column;
+		flex-grow: 1;
+	}
+
+	.agency {
+		font-size: 8px;
+		font-weight: 900;
+		letter-spacing: 1.5px;
+		color: $paper;
+	}
+
+	.bureau {
+		font-size: 5px;
+		letter-spacing: 2px;
+		color: rgba( 255, 255, 255, 0.75 );
+	}
+
+	.flag {
+		width: 18px;
+		height: 10px;
+		flex-direction: column;
+		border: 1px solid rgba( 0, 0, 0, 0.5 );
+	}
+
+	.flag-stripe {
+		flex-grow: 1;
+	}
+
+	.flag-stripe.red {
+		background-color: $red;
+	}
+
+	.flag-stripe.white {
+		background-color: $paper;
+	}
+
+	.page {
+		flex-direction: column;
+		flex-grow: 1;
+		padding: 5px 8px;
+		background-color: $paper;
+	}
+
+	.page-title {
+		font-size: 9px;
+		font-weight: 900;
+		color: $navy;
+		letter-spacing: 0.5px;
+		margin-bottom: 4px;
+		padding-bottom: 2px;
+		border-bottom: 1px solid $paper-line;
+	}
+
+	.info-card {
+		flex-direction: column;
+		background-color: $paper-tint;
+		border-left: 2px solid $navy-light;
+		padding: 3px 6px;
+		margin-bottom: 4px;
+	}
+
+	.info-row {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		padding: 1px 0;
+	}
+
+	.info-key {
+		font-size: 6px;
+		font-weight: 700;
+		letter-spacing: 0.5px;
+		color: $ink-muted;
+	}
+
+	.info-value {
+		font-size: 7px;
+		font-weight: 700;
+		color: $ink;
+		text-align: right;
+	}
+
+	.info-value.status-active {
+		color: $green;
+	}
+
+	.info-value.status-expired,
+	.info-value.status-revoked {
+		color: $red-dark;
+	}
+
+	.info-value.status-busy {
+		color: $amber;
+	}
+
+	.info-value.status-offline,
+	.info-value.status-none {
+		color: $ink-muted;
+	}
+
+	.price-card {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		background-color: $paper;
+		border: 1px solid $paper-line;
+		padding: 2px 6px;
+		margin-bottom: 4px;
+	}
+
+	.price-label {
+		font-size: 6px;
+		letter-spacing: 1px;
+		color: $ink-muted;
+		font-weight: 700;
+	}
+
+	.price-value {
+		font-size: 10px;
+		font-weight: 900;
+		color: $navy;
+	}
+
+	.cta {
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background-color: $navy-light;
+		color: $paper;
+		padding: 3px 6px;
+		border: 1px solid $navy;
+	}
+
+	.cta.none {
+		background-color: $red;
+		border-color: $red-dark;
+	}
+
+	.cta.busy,
+	.cta.offline {
+		background-color: #9aa3b2;
+		border-color: #7c8492;
+	}
+
+	.cta.revoked,
+	.cta.expired {
+		background-color: $red-dark;
+		border-color: #5e0d18;
+	}
+
+	.cta-label {
+		font-size: 10px;
+		font-weight: 900;
+		letter-spacing: 1.5px;
+	}
+
+	.cta-hint {
+		font-size: 5px;
+		letter-spacing: 2px;
+		color: rgba( 255, 255, 255, 0.85 );
+		margin-top: 1px;
+	}
+
+	.footer {
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		background-color: $navy-dark;
+		color: $paper;
+		padding: 2px 6px;
+		flex-shrink: 0;
+		border-top: 1px solid $gold;
+	}
+
+	.footer-text {
+		font-size: 5px;
+		letter-spacing: 0.5px;
+		color: rgba( 255, 255, 255, 0.85 );
+	}
+}

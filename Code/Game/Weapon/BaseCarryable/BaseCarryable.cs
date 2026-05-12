@@ -190,8 +190,13 @@ public partial class BaseCarryable : Component, IKillIcon
 
 	private void OnItemVisibility( bool oldVal, bool newVal )
 	{
-		if ( DroppedGameObject.IsValid() )
-			DroppedGameObject.Enabled = newVal;
+		if ( !this.IsValid() || !GameObject.IsValid() )
+			return;
+
+		if ( DroppedGameObject is null || !DroppedGameObject.IsValid() )
+			return;
+
+		DroppedGameObject.Enabled = newVal;
 	}
 
 	/// <summary>

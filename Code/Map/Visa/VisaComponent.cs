@@ -1,10 +1,8 @@
-using Sandbox.UI;
-
 /// <summary>
-/// Visa data carried on a <see cref="VisaCard"/> in the player's inventory.
-/// Real visas are valid until <see cref="ExpiryTime"/>; fake visas pass most
-/// scans but have a per-check chance of being detected. All issuance and
-/// validity logic runs on the host.
+/// Visa data carried directly on a <see cref="Player"/>. Real visas are valid
+/// until <see cref="ExpiryTime"/>; fake visas pass most scans but have a
+/// per-check chance of being detected. All issuance and validity logic runs
+/// on the host.
 /// </summary>
 public sealed class VisaComponent : Component
 {
@@ -27,7 +25,14 @@ public sealed class VisaComponent : Component
 	[Sync( SyncFlags.FromHost )]
 	public bool IsBurned { get; set; }
 
-	public bool IsExpired => DateTime.UtcNow >= ExpiryTime;
+	/// <summary>True once the player has actually been issued a visa.</summary>
+	public bool HasIssuedVisa => ExpiryTime != default;
+
+	/// <summary>
+	/// True only when an issued visa's expiry has passed. An unissued visa
+	/// is "missing", not "expired".
+	/// </summary>
+	public bool IsExpired => HasIssuedVisa && DateTime.UtcNow >= ExpiryTime;
 
 	/// <summary>
 	/// Runs on the host. Returns false on the client so cheats can't
@@ -39,7 +44,7 @@ public sealed class VisaComponent : Component
 		if ( !Networking.IsHost )
 			return false;
 
-		if ( IsExpired || IsBurned )
+		if ( !HasIssuedVisa || IsExpired || IsBurned )
 			return false;
 
 		if ( IsFake && Game.Random.Float() < FakeDetectionChance )
@@ -52,23 +57,16 @@ public sealed class VisaComponent : Component
 	}
 
 	/// <summary>
-	/// Returns the visa carried by the given player, by scanning their inventory
-	/// for a <see cref="VisaCard"/>. Returns null when they have no card.
+	/// Returns the visa component attached to the given player, or null
+	/// when the player object isn't valid. The component is auto-added
+	/// on player spawn so this should normally not return null for a
+	/// live player.
 	/// </summary>
 	public static VisaComponent For( Player player )
-	{
-		var card = CardFor( player );
-		return card.IsValid() ? card.Visa : null;
-	}
-
-	/// <summary>
-	/// Returns the first <see cref="VisaCard"/> in the player's inventory, if any.
-	/// </summary>
-	public static VisaCard CardFor( Player player )
 	{
 		if ( !player.IsValid() )
 			return null;
 
-		return player.GameObject.GetComponentInChildren<VisaCard>( true );
+		return player.GameObject.GetComponent<VisaComponent>();
 	}
 }
